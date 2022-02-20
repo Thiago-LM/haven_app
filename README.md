@@ -1,16 +1,20 @@
 # haven_app
 
-A new Flutter project.
+This is an experiment with [wallhaven]((https://wallhaven.cc/)) api made with Flutter.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+A few resources to get you started in this project:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- [wallhaven FAQ](https://wallhaven.cc/faq)
+- [wallhaven API v1 Documentation](https://wallhaven.cc/help/api)
 
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Screenshot
+
+|                Home Page                 |                Custom Dialog                 |
+| ----------------------------------------------- | ----------------------------------------------- |
+|![Home Page](screenshots/Screenshot_1.png)|![Custom Dialog](screenshots/Screenshot_2.png)|
