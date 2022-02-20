@@ -1,5 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.odawara.haven_app">
+    
+    <!-- Required to fetch data from the internet. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
    <application
         android:label="haven_app"
         android:name="${applicationName}"
