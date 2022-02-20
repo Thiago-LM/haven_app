@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class WallPage extends StatelessWidget {
   const WallPage({Key? key, required this.url}) : super(key: key);
@@ -52,7 +54,7 @@ class WallPage extends StatelessWidget {
                     context: context,
                     name: 'Apply',
                     icon: CupertinoIcons.paintbrush,
-                    action: () {},
+                    action: () async => await applyImage(),
                   ),
                 ],
               ),
@@ -112,9 +114,34 @@ class WallPage extends StatelessWidget {
     }
     log('$dir exist');
 
-    File file =
-        File(dir.path + 'wallhaven-' + url.substring(url.lastIndexOf('/') + 1));
+    File file = File(dir.path + url.substring(url.lastIndexOf('/') + 1));
     log('file = ${file.path}');
     file.writeAsBytesSync((await http.get(Uri.parse(url))).bodyBytes);
+  }
+
+  static const platform = MethodChannel('br.com.odawara/wallpaper');
+
+  Future<void> setWallpaper({required String path}) async {
+    try {
+      await platform.invokeMethod('setWallpaper', {'path': path});
+    } catch (e) {
+      log('Failed to set Wallpaper: $e');
+    }
+  }
+
+  Future<void> applyImage() async {
+    Directory tempDir = Directory(
+        (await getApplicationDocumentsDirectory()).path + '/wallhaven/');
+    if (!(await tempDir.exists())) {
+      log('$tempDir doesnt exist');
+      await tempDir.create();
+    }
+    log('$tempDir exist');
+
+    File file = File(tempDir.path + url.substring(url.lastIndexOf('/') + 1));
+    log('file = ${file.path}');
+    file.writeAsBytesSync((await http.get(Uri.parse(url))).bodyBytes);
+
+    await setWallpaper(path: file.path);
   }
 }
