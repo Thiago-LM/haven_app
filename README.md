@@ -1,6 +1,6 @@
 # haven_app
 
-This is an experiment with [wallhaven]((https://wallhaven.cc/)) api made with Flutter.
+This is an experiment with [wallhaven](https://wallhaven.cc/) api made with Flutter.
 
 ## Getting Started
 
@@ -16,5 +16,7 @@ samples, guidance on mobile development, and a full API reference.
 ## Screenshot
 
 |                Home Page                 |                Custom Dialog                 |
-| ----------------------------------------------- | ----------------------------------------------- |
+| ---------------------------------------- | -------------------------------------------- |
 |![Home Page](screenshots/Screenshot_1.png)|![Custom Dialog](screenshots/Screenshot_2.png)|
+|                Wall Page                 |                Download Working                 |
+|![Wall Page](screenshots/Screenshot_3.png)|![Download Working](screenshots/Screenshot_4.png)|
