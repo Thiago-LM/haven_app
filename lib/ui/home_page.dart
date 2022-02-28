@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 import 'wall_page.dart';
@@ -17,14 +18,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _response = GetStorage();
   late Future<Search> futureSearch;
   late TextEditingController _textController;
 
   @override
   void initState() {
-    super.initState();
     futureSearch = fetchBestOfTheMonth();
     _textController = TextEditingController();
+
+    super.initState();
   }
 
   @override
@@ -88,42 +91,53 @@ class _HomePageState extends State<HomePage> {
               future: futureSearch,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return SizedBox(
-                    height: (mediaSize.height / 4.5) * 3.3,
-                    child: GridView.builder(
-                      itemCount: snapshot.data!.data!.length,
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15.0)),
-                          child: GestureDetector(
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  snapshot.data!.data![index].thumbs!.original!,
-                              filterQuality: FilterQuality.high,
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) => const Icon(
-                                Icons.error,
-                                color: Colors.red,
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      await _response.erase().then((value) async {
+                        final freshFutureSearch = await fetchBestOfTheMonth();
+                        setState(() {
+                          futureSearch = Future.value(freshFutureSearch);
+                        });
+                      });
+                    },
+                    child: SizedBox(
+                      height: (mediaSize.height / 4.5) * 3.3,
+                      child: GridView.builder(
+                        itemCount: snapshot.data!.data!.length,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(15.0)),
+                            child: GestureDetector(
+                              child: CachedNetworkImage(
+                                imageUrl: snapshot
+                                    .data!.data![index].thumbs!.original!,
+                                filterQuality: FilterQuality.high,
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(
+                                  Icons.error,
+                                  color: Colors.red,
+                                ),
+                                fit: BoxFit.cover,
                               ),
-                              fit: BoxFit.cover,
+                              onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => WallPage(
+                                          url: snapshot
+                                              .data!.data![index].path!))),
                             ),
-                            onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (_) => WallPage(
-                                        url: snapshot
-                                            .data!.data![index].path!))),
-                          ),
-                        );
-                      },
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                        mainAxisExtent: mediaSize.height / 4.5,
+                          );
+                        },
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
+                          mainAxisExtent: mediaSize.height / 4.5,
+                        ),
                       ),
                     ),
                   );
@@ -142,20 +156,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<Search> fetchBestOfTheMonth() async {
-    final response = await http
-        .get(Uri.parse('https://wallhaven.cc/api/v1/search?sorting=toplist'));
+    while (_response.read('response') == null) {
+      final response = await http
+          .get(Uri.parse('https://wallhaven.cc/api/v1/search?sorting=toplist'));
 
-    log('response.statusCode = ${response.statusCode}');
-    log('response.body = ${response.body}');
+      log('response.statusCode = ${response.statusCode}');
+      log('response.body = ${response.body}');
 
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return Search.fromMap(jsonDecode(response.body));
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load search');
+      if (response.statusCode == 200) {
+        _response.write('response', response.body);
+        // If the server did return a 200 OK response,
+        // then parse the JSON.
+        return Search.fromMap(jsonDecode(response.body));
+      } else {
+        // If the server did not return a 200 OK response,
+        // then throw an exception.
+        throw Exception('Failed to load search');
+      }
     }
+
+    return Search.fromMap(jsonDecode(_response.read('response')));
   }
 }
