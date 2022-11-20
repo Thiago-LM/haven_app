@@ -10,8 +10,8 @@ A few resources to get you started in this project:
 - [wallhaven API v1 Documentation](https://wallhaven.cc/help/api)
 - [dribbble - Wallpaper app by  Rian for SLAB Design Studio](https://dribbble.com/shots/14808564-Wallpaper-app)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
 ## Screenshot

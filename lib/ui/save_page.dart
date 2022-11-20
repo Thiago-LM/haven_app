@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class SavePage extends StatefulWidget {
-  const SavePage({Key? key}) : super(key: key);
+  const SavePage({super.key});
 
   @override
-  _SavePageState createState() => _SavePageState();
+  State<SavePage> createState() => _SavePageState();
 }
 
 class _SavePageState extends State<SavePage> {
@@ -60,12 +60,12 @@ class _SavePageState extends State<SavePage> {
                   return ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(15.0)),
                     child: GestureDetector(
+                      onTap: null,
                       child: Image.file(
                         File(imageFiles[index].path),
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.cover,
                       ),
-                      onTap: null,
                     ),
                   );
                 },

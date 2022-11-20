@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomSearchDialog extends StatefulWidget {
-  const CustomSearchDialog({Key? key, required this.mediaSize})
-      : super(key: key);
+  const CustomSearchDialog({super.key, required this.mediaSize});
 
   final Size mediaSize;
 
   @override
-  _CustomSearchDialogState createState() => _CustomSearchDialogState();
+  State<CustomSearchDialog> createState() => _CustomSearchDialogState();
 }
 
 class _CustomSearchDialogState extends State<CustomSearchDialog> {

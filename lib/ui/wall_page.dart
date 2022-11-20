@@ -132,7 +132,7 @@ class WallPage extends StatelessWidget {
 
   Future<void> applyImage() async {
     Directory tempDir = Directory(
-        (await getApplicationDocumentsDirectory()).path + '/wallhaven/');
+        '${(await getApplicationDocumentsDirectory()).path}/wallhaven/');
     if (!(await tempDir.exists())) {
       log('$tempDir doesnt exist');
       await tempDir.create();

@@ -4,17 +4,16 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:haven_app/model/search/search.dart';
+import 'package:haven_app/ui/wall_page.dart';
+import 'package:haven_app/ui/widgets/custom_search_dialog.dart';
 import 'package:http/http.dart' as http;
 
-import 'wall_page.dart';
-import 'widgets/custom_search_dialog.dart';
-import 'package:haven_app/model/search/search.dart';
-
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {

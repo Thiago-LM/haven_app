@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'ui/custom_bottom_navigation_bar.dart';
+import 'package:haven_app/ui/custom_bottom_navigation_bar.dart';
 
 void main() => runApp(const MyApp());
 
