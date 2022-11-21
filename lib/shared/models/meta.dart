@@ -1,0 +1,57 @@
+import 'package:equatable/equatable.dart';
+
+class Meta extends Equatable {
+  const Meta({
+    required this.currentPage,
+    required this.lastPage,
+    required this.perPage,
+    required this.total,
+    this.query,
+    this.seed,
+  });
+
+  factory Meta.fromJson(Map<String, dynamic> json) => Meta(
+        currentPage:
+            json['current_page'] == null ? 0 : json['current_page'] as int,
+        lastPage: json['last_page'] == null ? 0 : json['last_page'] as int,
+        perPage: json['per_page'] == null ? 0 : json['per_page'] as int,
+        total: json['total'] == null ? 0 : json['total'] as int,
+        query: json['query'],
+        seed: json['seed'],
+      );
+
+  final int currentPage;
+  final int lastPage;
+  final int perPage;
+  final int total;
+  final dynamic query;
+  final dynamic seed;
+
+  static const empty = Meta(
+    currentPage: 0,
+    lastPage: 0,
+    perPage: 0,
+    total: 0,
+  );
+
+  Map<String, dynamic> toJson() => {
+        'current_page': currentPage,
+        'last_page': lastPage,
+        'per_page': perPage,
+        'total': total,
+        'query': query,
+        'seed': seed,
+      };
+
+  @override
+  List<Object?> get props {
+    return [
+      currentPage,
+      lastPage,
+      perPage,
+      total,
+      query,
+      seed,
+    ];
+  }
+}
