@@ -18,7 +18,6 @@ dependencies:
   flutter_bloc: ^8.1.1
   flutter_localizations:
     sdk: flutter
-  get_storage: ^2.0.3
   http: ^0.13.5
   hydrated_bloc: ^9.0.0
   intl: ^0.17.0
