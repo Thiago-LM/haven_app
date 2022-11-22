@@ -1,19 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:haven_app/ui/custom_bottom_navigation_bar.dart';
+import 'package:haven_app/bootstrap.dart';
+import 'package:haven_app/haven_app.dart';
+import 'package:haven_app/wallhaven/wallhaven.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Wallhaven Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const CustomBottomNavigationBar(),
-    );
-  }
-}
+void main() =>
+    bootstrap(() => HavenApp(wallhavenRepository: WallhavenRepository()));

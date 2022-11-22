@@ -18,7 +18,7 @@ class _CustomSearchDialogState extends State<CustomSearchDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 10),
       title: const Text(
         'Custom Search',
         textAlign: TextAlign.center,
@@ -58,16 +58,16 @@ class _CustomSearchDialogState extends State<CustomSearchDialog> {
             Row(
               children: [
                 const Text('atleast:'),
-                const SizedBox(width: 20.0),
+                const SizedBox(width: 20),
                 Container(
                   decoration: BoxDecoration(
-                    border: Border.all(style: BorderStyle.solid),
+                    border: Border.all(),
                     color: Colors.white,
                   ),
-                  padding: const EdgeInsets.all(8.0),
-                  margin: const EdgeInsets.symmetric(vertical: 10.0),
-                  height: 50.0,
-                  width: 75.0,
+                  padding: const EdgeInsets.all(8),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  height: 50,
+                  width: 75,
                   child: TextField(
                     cursorColor: Colors.grey,
                     decoration: InputDecoration(
@@ -81,13 +81,13 @@ class _CustomSearchDialogState extends State<CustomSearchDialog> {
                 const Text('X'),
                 Container(
                   decoration: BoxDecoration(
-                    border: Border.all(style: BorderStyle.solid),
+                    border: Border.all(),
                     color: Colors.white,
                   ),
-                  padding: const EdgeInsets.all(8.0),
-                  margin: const EdgeInsets.symmetric(vertical: 10.0),
-                  height: 50.0,
-                  width: 75.0,
+                  padding: const EdgeInsets.all(8),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  height: 50,
+                  width: 75,
                   child: TextField(
                     cursorColor: Colors.grey,
                     decoration: InputDecoration(
@@ -120,15 +120,15 @@ class _CustomSearchDialogState extends State<CustomSearchDialog> {
     return Row(
       children: [
         Text('$name:'),
-        const SizedBox(width: 20.0),
+        const SizedBox(width: 20),
         SizedBox(
-          height: 50.0,
+          height: 50,
           width: widget.mediaSize.width - 200,
           child: SingleChildScrollView(
             physics: const ScrollPhysics(),
             scrollDirection: Axis.horizontal,
             child: Wrap(
-              spacing: 10.0,
+              spacing: 10,
               children: List<Widget>.generate(
                 3,
                 (int index) => ChoiceChip(
@@ -172,13 +172,14 @@ class _CustomSearchDialogState extends State<CustomSearchDialog> {
     return Row(
       children: [
         Text('$name:'),
-        const SizedBox(width: 20.0),
+        const SizedBox(width: 20),
         DropdownButton<String>(
           value: firstValue,
           icon: const Icon(Icons.arrow_drop_down),
           style: const TextStyle(color: Colors.black),
-          onChanged: (String? newValue) => setState(() =>
-              dropdownValue[dropdownValue.indexOf(firstValue)] = newValue!),
+          onChanged: (String? newValue) => setState(
+            () => dropdownValue[dropdownValue.indexOf(firstValue)] = newValue!,
+          ),
           items: options
               .map<DropdownMenuItem<String>>(
                 (String value) => DropdownMenuItem<String>(

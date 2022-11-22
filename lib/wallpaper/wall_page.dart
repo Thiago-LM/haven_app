@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 class WallPage extends StatelessWidget {
-  const WallPage({Key? key, required this.url}) : super(key: key);
+  const WallPage({super.key, required this.url});
 
   final String url;
 
@@ -33,9 +33,9 @@ class WallPage extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             Positioned(
-              bottom: 30.0,
-              left: 5.0,
-              right: 5.0,
+              bottom: 30,
+              left: 5,
+              right: 5,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -49,13 +49,13 @@ class WallPage extends StatelessWidget {
                     context: context,
                     name: 'Save',
                     icon: Icons.download,
-                    action: () async => await downloadImage(),
+                    action: () async => downloadImage(),
                   ),
                   customButton(
                     context: context,
                     name: 'Apply',
                     icon: CupertinoIcons.paintbrush,
-                    action: () async => await applyImage(),
+                    action: () async => applyImage(),
                   ),
                 ],
               ),
@@ -77,29 +77,30 @@ class WallPage extends StatelessWidget {
         ElevatedButton(
           style: TextButton.styleFrom(
             backgroundColor: Colors.white24,
-            elevation: 0.0,
+            elevation: 0,
             fixedSize: Size(
               MediaQuery.of(context).size.height / 11,
               MediaQuery.of(context).size.height / 11,
             ),
             shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
           ),
           onPressed: action,
           child: Center(
             child: Icon(
               icon,
               color: Colors.white,
-              size: 30.0,
+              size: 30,
             ),
           ),
         ),
-        const SizedBox(height: 10.0),
+        const SizedBox(height: 10),
         Text(
           name,
           style: const TextStyle(
             color: Colors.white,
-            fontSize: 15.0,
+            fontSize: 15,
             letterSpacing: 1.2,
           ),
         ),
@@ -108,14 +109,14 @@ class WallPage extends StatelessWidget {
   }
 
   Future<void> downloadImage() async {
-    Directory dir = Directory('storage/emulated/0/Pictures/wallhaven/');
-    if (!(await dir.exists())) {
+    final dir = Directory('storage/emulated/0/Pictures/wallhaven/');
+    if (!dir.existsSync()) {
       log('$dir doesnt exist');
       await dir.create();
     }
     log('$dir exist');
 
-    File file = File(dir.path + url.substring(url.lastIndexOf('/') + 1));
+    final file = File(dir.path + url.substring(url.lastIndexOf('/') + 1));
     log('file = ${file.path}');
     file.writeAsBytesSync((await http.get(Uri.parse(url))).bodyBytes);
   }
@@ -131,15 +132,16 @@ class WallPage extends StatelessWidget {
   }
 
   Future<void> applyImage() async {
-    Directory tempDir = Directory(
-        '${(await getApplicationDocumentsDirectory()).path}/wallhaven/');
-    if (!(await tempDir.exists())) {
+    final tempDir = Directory(
+      '${(await getApplicationDocumentsDirectory()).path}/wallhaven/',
+    );
+    if (!tempDir.existsSync()) {
       log('$tempDir doesnt exist');
       await tempDir.create();
     }
     log('$tempDir exist');
 
-    File file = File(tempDir.path + url.substring(url.lastIndexOf('/') + 1));
+    final file = File(tempDir.path + url.substring(url.lastIndexOf('/') + 1));
     log('file = ${file.path}');
     file.writeAsBytesSync((await http.get(Uri.parse(url))).bodyBytes);
 

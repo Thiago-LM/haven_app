@@ -10,7 +10,7 @@ class SavePage extends StatefulWidget {
 }
 
 class _SavePageState extends State<SavePage> {
-  var imageFiles = <FileSystemEntity>[];
+  List<FileSystemEntity> imageFiles = <FileSystemEntity>[];
 
   @override
   void initState() {
@@ -27,40 +27,38 @@ class _SavePageState extends State<SavePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
             child: Text(
               'Saved',
               style: TextStyle(
-                fontSize: 50.0,
+                fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10),
             child: Text(
               imageFiles.length > 1
                   ? '${imageFiles.length} wallpapers that you saved'
                   : 'A wallpaper you saved',
               style: const TextStyle(
-                fontSize: 20.0,
+                fontSize: 20,
                 color: Colors.grey,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10),
             child: SizedBox(
               height: (mediaSize.height / 4.5) * 3.3,
               child: GridView.builder(
                 itemCount: imageFiles.length,
-                scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
                     child: GestureDetector(
-                      onTap: null,
                       child: Image.file(
                         File(imageFiles[index].path),
                         filterQuality: FilterQuality.high,
@@ -71,8 +69,8 @@ class _SavePageState extends State<SavePage> {
                 },
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 10.0,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
                   mainAxisExtent: mediaSize.height / 3.0,
                 ),
               ),
