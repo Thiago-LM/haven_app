@@ -17,7 +17,6 @@ class HomeCubit extends HydratedCubit<HomeState> {
 
     try {
       final wallpaperList = await _wallhavenRepository.getWallpaper();
-      log('wallpaperList = $wallpaperList');
 
       emit(
         state.copyWith(
@@ -26,7 +25,7 @@ class HomeCubit extends HydratedCubit<HomeState> {
         ),
       );
     } catch (e) {
-      log('e = $e');
+      log('e = $e', name: 'HomeCubit');
       emit(state.copyWith(status: HomeStatus.failure));
     }
   }

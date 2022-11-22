@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:haven_app/shared/shared.dart';
 import 'package:http/http.dart' as http;
@@ -40,10 +39,8 @@ class WallhavenApiClient {
   /// Finds a [Wallpaper] `/search?sorting=toplist`.
   Future<WallpaperList> wallpaperSearch() async {
     final request = Uri.https(_baseUrl, '/api/v1/search', {'sort': 'toplist'});
-    log('request = $request');
 
     final response = await _httpClient.get(request);
-    log('response = ${response.statusCode} - ${response.body}');
 
     if (response.statusCode != 200) {
       throw WallpaperSearchRequestFailure(
@@ -51,7 +48,7 @@ class WallhavenApiClient {
       );
     }
 
-    final wallpaperListJson = jsonDecode(response.body) as Map;
+    final wallpaperListJson = jsonDecode(response.body) as Map<String, dynamic>;
 
     if (!wallpaperListJson.containsKey('data')) {
       throw const WallpaperNotFoundFailure(
@@ -59,14 +56,6 @@ class WallhavenApiClient {
       );
     }
 
-    final results = wallpaperListJson['data'] as List;
-
-    if (results.isEmpty) {
-      throw const WallpaperNotFoundFailure(
-        'Wallpaper not found. Please check your query.',
-      );
-    }
-
-    return WallpaperList.fromJson(results.first as Map<String, dynamic>);
+    return WallpaperList.fromJson(wallpaperListJson);
   }
 }
