@@ -23,25 +23,13 @@ class TabBarNavigationView extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Haven'),
           bottom: const TabBar(
+            labelColor: Colors.black,
+            indicatorColor: Colors.black,
+            unselectedLabelColor: Colors.grey,
             tabs: <Widget>[
-              Tab(
-                icon: Icon(
-                  CupertinoIcons.square_grid_2x2_fill,
-                  color: Colors.black,
-                ),
-              ),
-              Tab(
-                icon: Icon(
-                  Icons.download,
-                  color: Colors.black,
-                ),
-              ),
-              Tab(
-                icon: Icon(
-                  Icons.supervised_user_circle_outlined,
-                  color: Colors.black,
-                ),
-              ),
+              Tab(icon: Icon(CupertinoIcons.square_grid_2x2_fill)),
+              Tab(icon: Icon(Icons.download)),
+              Tab(icon: Icon(Icons.supervised_user_circle_outlined)),
             ],
           ),
         ),

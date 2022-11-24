@@ -46,64 +46,64 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(15)),
-                color: Colors.white,
-              ),
-              padding: const EdgeInsets.all(8),
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              child: TextField(
-                controller: _textController,
-                cursorColor: Colors.black,
-                decoration: InputDecoration(
-                  hintText: 'Find Wallpaper...',
-                  hintStyle: const TextStyle(color: Colors.black87),
-                  suffixIcon: IconButton(
-                    icon: const Icon(
-                      Icons.search,
-                      color: Colors.black87,
-                    ),
-                    onPressed: () => showDialog<void>(
-                      context: context,
-                      builder: (context) =>
-                          CustomSearchDialog(mediaSize: mediaSize),
-                    ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(width: 2),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              color: Colors.white,
+            ),
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            child: TextField(
+              controller: _textController,
+              cursorColor: Colors.black,
+              decoration: InputDecoration(
+                hintText: 'Find Wallpaper...',
+                hintStyle: const TextStyle(color: Colors.black87),
+                suffixIcon: IconButton(
+                  icon: const Icon(
+                    Icons.search,
+                    color: Colors.black87,
                   ),
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
+                  onPressed: () => showDialog<void>(
+                    context: context,
+                    builder: (context) =>
+                        CustomSearchDialog(mediaSize: mediaSize),
+                  ),
                 ),
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
               ),
             ),
-            const Text(
-              'Best of the month',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+          ),
+          const Text(
+            'Best of the month',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
-            const SizedBox(height: 10),
-            BlocBuilder<HomeCubit, HomeState>(
-              builder: (context, state) {
-                switch (state.status) {
-                  case HomeStatus.initial:
-                  case HomeStatus.loading:
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
-                  case HomeStatus.success:
-                    return SizedBox(
-                      height: (mediaSize.height / 4.5) * 3.3,
-                      child: GridView.builder(
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                cubit.updateStatus(HomeStatus.loading);
+                await cubit.fetchWallpaper();
+              },
+              child: BlocBuilder<HomeCubit, HomeState>(
+                builder: (context, state) {
+                  switch (state.status) {
+                    case HomeStatus.initial:
+                    case HomeStatus.loading:
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    case HomeStatus.success:
+                      return GridView.builder(
                         itemCount: state.wallpaperList.data.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
@@ -140,17 +140,17 @@ class _HomeViewState extends State<HomeView> {
                           mainAxisSpacing: 10,
                           mainAxisExtent: mediaSize.height / 4.5,
                         ),
-                      ),
-                    );
-                  case HomeStatus.failure:
-                    return const Center(
-                      child: Text('Failed to load wallpaper'),
-                    );
-                }
-              },
+                      );
+                    case HomeStatus.failure:
+                      return const Center(
+                        child: Text('Failed to load wallpaper'),
+                      );
+                  }
+                },
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

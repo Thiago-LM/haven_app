@@ -13,22 +13,26 @@ class HomeCubit extends HydratedCubit<HomeState> {
   final WallhavenRepository _wallhavenRepository;
 
   Future<void> fetchWallpaper() async {
-    emit(state.copyWith(status: HomeStatus.loading));
+    if (state.status != HomeStatus.success) {
+      emit(state.copyWith(status: HomeStatus.loading));
 
-    try {
-      final wallpaperList = await _wallhavenRepository.getWallpaper();
+      try {
+        final wallpaperList = await _wallhavenRepository.getWallpaper();
 
-      emit(
-        state.copyWith(
-          status: HomeStatus.success,
-          wallpaperList: wallpaperList,
-        ),
-      );
-    } catch (e) {
-      log('e = $e', name: 'HomeCubit');
-      emit(state.copyWith(status: HomeStatus.failure));
+        emit(
+          state.copyWith(
+            status: HomeStatus.success,
+            wallpaperList: wallpaperList,
+          ),
+        );
+      } catch (e) {
+        log('e = $e', name: 'HomeCubit');
+        emit(state.copyWith(status: HomeStatus.failure));
+      }
     }
   }
+
+  void updateStatus(HomeStatus status) => emit(state.copyWith(status: status));
 
   @override
   HomeState fromJson(Map<String, dynamic> json) => HomeState.fromJson(json);

@@ -38,7 +38,8 @@ class WallhavenApiClient {
 
   /// Finds a [Wallpaper] `/search?sorting=toplist`.
   Future<WallpaperList> wallpaperSearch() async {
-    final request = Uri.https(_baseUrl, '/api/v1/search', {'sort': 'toplist'});
+    final request =
+        Uri.https(_baseUrl, '/api/v1/search', {'sorting': 'toplist'});
 
     final response = await _httpClient.get(request);
 
