@@ -12,12 +12,15 @@ class HomeCubit extends HydratedCubit<HomeState> {
 
   final WallhavenRepository _wallhavenRepository;
 
-  Future<void> fetchWallpaper() async {
+  Future<void> fetchWallpaper({String? query, int? pageIndex}) async {
     if (state.status != HomeStatus.success) {
       emit(state.copyWith(status: HomeStatus.loading));
 
       try {
-        final wallpaperList = await _wallhavenRepository.getWallpaper();
+        final wallpaperList = await _wallhavenRepository.getWallpaper(
+          query: query,
+          pageIndex: pageIndex ?? 1,
+        );
 
         emit(
           state.copyWith(

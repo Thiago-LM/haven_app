@@ -31,4 +31,8 @@ class Thumbs extends Equatable {
 
   @override
   List<Object?> get props => [large, original, small];
+
+  @override
+  String toString() =>
+      'Thumbs(large: $large, original: $original, small: $small)';
 }

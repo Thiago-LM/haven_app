@@ -117,4 +117,9 @@ class Wallpaper extends Equatable {
       thumbs,
     ];
   }
+
+  @override
+  String toString() {
+    return 'Wallpaper(id: $id, url: $url, shortUrl: $shortUrl, views: $views, favorites: $favorites, source: $source, purity: $purity, category: $category, dimensionX: $dimensionX, dimensionY: $dimensionY, resolution: $resolution, ratio: $ratio, fileSize: $fileSize, fileType: $fileType, createdAt: $createdAt, colors: $colors, path: $path, thumbs: $thumbs)';
+  }
 }

@@ -29,4 +29,7 @@ class WallpaperList extends Equatable {
 
   @override
   List<Object?> get props => [data, meta];
+
+  @override
+  String toString() => 'WallpaperList(data: $data, meta: $meta)';
 }

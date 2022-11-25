@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:haven_app/home/cubit/home_cubit.dart';
-import 'package:haven_app/home/widgets/custom_search_dialog.dart';
 import 'package:haven_app/wallhaven/wallhaven.dart';
 import 'package:haven_app/wallpaper/wall_page.dart';
 
@@ -28,6 +27,8 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   HomeCubit get cubit => context.read<HomeCubit>();
   late TextEditingController _textController;
+  String searchTitle = 'Best of the month';
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void dispose() {
     _textController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -69,20 +71,21 @@ class _HomeViewState extends State<HomeView> {
                     Icons.search,
                     color: Colors.black87,
                   ),
-                  onPressed: () => showDialog<void>(
-                    context: context,
-                    builder: (context) =>
-                        CustomSearchDialog(mediaSize: mediaSize),
-                  ),
+                  onPressed: () async {
+                    cubit.updateStatus(HomeStatus.loading);
+                    await cubit.fetchWallpaper(query: _textController.text);
+                    setState(() => searchTitle = _textController.text);
+                    _textController.clear();
+                  },
                 ),
                 focusedBorder: InputBorder.none,
                 enabledBorder: InputBorder.none,
               ),
             ),
           ),
-          const Text(
-            'Best of the month',
-            style: TextStyle(
+          Text(
+            searchTitle,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -106,6 +109,22 @@ class _HomeViewState extends State<HomeView> {
                       return GridView.builder(
                         itemCount: state.wallpaperList.data.length,
                         shrinkWrap: true,
+                        controller: _scrollController
+                          ..addListener(() async {
+                            if (_scrollController.position.pixels ==
+                                    _scrollController
+                                        .position.maxScrollExtent &&
+                                state.wallpaperList.data.length <
+                                    state.wallpaperList.meta.total &&
+                                !state.status.isLoading) {
+                              cubit.updateStatus(HomeStatus.loading);
+                              await cubit.fetchWallpaper(
+                                query: searchTitle,
+                                pageIndex:
+                                    state.wallpaperList.meta.currentPage + 1,
+                              );
+                            }
+                          }),
                         itemBuilder: (context, index) {
                           return ClipRRect(
                             borderRadius:

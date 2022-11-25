@@ -9,8 +9,11 @@ class WallhavenRepository {
 
   final WallhavenApiClient _wallhavenApiClient;
 
-  Future<WallpaperList> getWallpaper() async {
-    final wallpaperList = await _wallhavenApiClient.wallpaperSearch();
+  Future<WallpaperList> getWallpaper({String? query, int? pageIndex}) async {
+    final wallpaperList = await _wallhavenApiClient.wallpaperSearch(
+      query: query,
+      pageIndex: pageIndex ?? 1,
+    );
     return wallpaperList;
   }
 }

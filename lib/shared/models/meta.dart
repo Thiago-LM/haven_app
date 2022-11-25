@@ -16,7 +16,7 @@ class Meta extends Equatable {
         lastPage: json['last_page'] == null ? 0 : json['last_page'] as int,
         perPage: json['per_page'] == null ? 0 : json['per_page'] as int,
         total: json['total'] == null ? 0 : json['total'] as int,
-        query: json['query'],
+        query: json['query'] as String?,
         seed: json['seed'],
       );
 
@@ -24,7 +24,7 @@ class Meta extends Equatable {
   final int lastPage;
   final int perPage;
   final int total;
-  final dynamic query;
+  final String? query;
   final dynamic seed;
 
   static const empty = Meta(
@@ -53,5 +53,10 @@ class Meta extends Equatable {
       query,
       seed,
     ];
+  }
+
+  @override
+  String toString() {
+    return 'Meta(currentPage: $currentPage, lastPage: $lastPage, perPage: $perPage, total: $total, query: $query, seed: $seed)';
   }
 }
