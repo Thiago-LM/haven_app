@@ -135,7 +135,7 @@ class _HomeViewState extends State<HomeView> {
                                     .wallpaperList.data[index].thumbs.original,
                                 filterQuality: FilterQuality.high,
                                 placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
+                                    const CircularProgressIndicator.adaptive(),
                                 errorWidget: (context, url, error) =>
                                     const Icon(
                                   Icons.error,

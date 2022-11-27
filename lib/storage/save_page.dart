@@ -14,9 +14,18 @@ class _SavePageState extends State<SavePage> {
 
   @override
   void initState() {
-    imageFiles = Directory('storage/emulated/0/Pictures/wallhaven/').listSync();
+    if (Platform.isAndroid) {
+      imageFiles = getImages();
+    }
 
     super.initState();
+  }
+
+  List<FileSystemEntity> getImages() {
+    final dir = Directory('storage/emulated/0/Pictures/wallhaven/')
+      ..createSync(recursive: true);
+
+    return dir.listSync();
   }
 
   @override

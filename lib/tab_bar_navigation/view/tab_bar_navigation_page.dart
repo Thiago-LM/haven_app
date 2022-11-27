@@ -22,6 +22,7 @@ class TabBarNavigationView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Haven'),
+          centerTitle: true,
           bottom: const TabBar(
             labelColor: Colors.black,
             indicatorColor: Colors.black,
