@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:haven_app/home/cubit/home_cubit.dart';
 import 'package:haven_app/wallhaven/wallhaven.dart';
-import 'package:haven_app/wallpaper/wall_page.dart';
+import 'package:haven_app/wallpaper/view/wall_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -146,6 +146,7 @@ class _HomeViewState extends State<HomeView> {
                               onTap: () => Navigator.of(context).push(
                                 MaterialPageRoute<void>(
                                   builder: (_) => WallPage(
+                                    id: state.wallpaperList.data[index].id,
                                     url: state.wallpaperList.data[index].path,
                                   ),
                                 ),

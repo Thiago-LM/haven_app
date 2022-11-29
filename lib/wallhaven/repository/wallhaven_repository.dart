@@ -16,4 +16,9 @@ class WallhavenRepository {
     );
     return wallpaperList;
   }
+
+  Future<WallpaperInfo> getWallpaperInfo({required String id}) async {
+    final wallpaper = await _wallhavenApiClient.wallpaperInfo(id: id);
+    return wallpaper;
+  }
 }

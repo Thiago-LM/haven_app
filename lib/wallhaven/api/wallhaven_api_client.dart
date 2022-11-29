@@ -24,6 +24,16 @@ class WallpaperNotFoundFailure implements Exception {
   String toString() => 'WallpaperNotFoundFailure(message: $message)';
 }
 
+/// Exception thrown when the provided wallpaper id info is not found.
+class WallpaperIdInfoNotFoundFailure implements Exception {
+  const WallpaperIdInfoNotFoundFailure(this.message);
+
+  final String message;
+
+  @override
+  String toString() => 'WallpaperIdInfoNotFoundFailure(message: $message)';
+}
+
 /// {@template wallhaven_api_client}
 /// Dart API Client which wraps the [wallhaven](https://wallhaven.cc/).
 /// {@endtemplate}
@@ -66,5 +76,22 @@ class WallhavenApiClient {
     }
 
     return WallpaperList.fromJson(wallpaperListJson);
+  }
+
+  /// Get [Wallpaper] info by id.
+  Future<WallpaperInfo> wallpaperInfo({required String id}) async {
+    final request = Uri.https(_baseUrl, '/api/v1/w/$id');
+
+    final response = await _httpClient.get(request);
+
+    if (response.statusCode != 200) {
+      throw WallpaperIdInfoNotFoundFailure(
+        'Request failed with status: ${response.statusCode}',
+      );
+    }
+
+    final wallpaperInfoJson = jsonDecode(response.body) as Map<String, dynamic>;
+
+    return WallpaperInfo.fromJson(wallpaperInfoJson);
   }
 }
