@@ -44,7 +44,13 @@ samples, guidance on mobile development, and a full API reference.
 | ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
 |![Home Page](screenshots/macOS_Screenshot_1.png)|![Custom Dialog](screenshots/macOS_Screenshot_2.png)|![Wall Page](screenshots/macOS_Screenshot_3.png)|![Download Working](screenshots/macOS_Screenshot_4.png)|
 
-_\*Haven App works on Android, iOS and macOS._
+### Arch Linux
+
+|                    Home Page                     |                      Wall Page                       |                 Wall Page - Info                 |                        Save Page                        |
+| ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
+|![Home Page](screenshots/linux_Screenshot_1.png)|![Custom Dialog](screenshots/linux_Screenshot_2.png)|![Wall Page](screenshots/linux_Screenshot_3.png)|![Download Working](screenshots/linux_Screenshot_4.png)|
+
+_\*Haven App works on Android, iOS, macOS and Arch Linux._
 
 ---
 
