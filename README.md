@@ -24,21 +24,27 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-## Screenshot
+## Screenshots
 
-|                Home Page                 |                Custom Dialog                 |
-| ---------------------------------------- | -------------------------------------------- |
-|![Home Page](screenshots/Screenshot_1.png)|![Custom Dialog](screenshots/Screenshot_2.png)|
+### Android
 
-|                Wall Page                 |                Download Working                 |
-| ---------------------------------------- | ----------------------------------------------- |
-|![Wall Page](screenshots/Screenshot_3.png)|![Download Working](screenshots/Screenshot_4.png)|
+|                    Home Page                     |                      Wall Page                       |                 Wall Page - Info                 |                        Save Page                        |
+| ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
+|![Home Page](screenshots/Android_Screenshot_1.png)|![Custom Dialog](screenshots/Android_Screenshot_2.png)|![Wall Page](screenshots/Android_Screenshot_3.png)|![Download Working](screenshots/Android_Screenshot_4.png)|
 
-|                Save Page                 |
-| ---------------------------------------- |
-|![Save Page](screenshots/Screenshot_5.png)|
+### iOS
 
-_\*Haven App builds on Android, iOS, mac and web._
+|                    Home Page                     |                      Wall Page                       |                 Wall Page - Info                 |                        Save Page                        |
+| ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
+|![Home Page](screenshots/iOS_Screenshot_1.png)|![Custom Dialog](screenshots/iOS_Screenshot_2.png)|![Wall Page](screenshots/iOS_Screenshot_3.png)|![Download Working](screenshots/iOS_Screenshot_4.png)|
+
+### macOS
+
+|                    Home Page                     |                      Wall Page                       |                 Wall Page - Info                 |                        Save Page                        |
+| ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
+|![Home Page](screenshots/macOS_Screenshot_1.png)|![Custom Dialog](screenshots/macOS_Screenshot_2.png)|![Wall Page](screenshots/macOS_Screenshot_3.png)|![Download Working](screenshots/macOS_Screenshot_4.png)|
+
+_\*Haven App works on Android, iOS and macOS._
 
 ---
 
