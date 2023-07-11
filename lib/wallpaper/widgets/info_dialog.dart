@@ -7,7 +7,7 @@ import 'package:haven_app/shared/models/wallpaper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InfoDialog extends StatelessWidget {
-  InfoDialog({super.key, required this.wallpaper});
+  InfoDialog({required this.wallpaper, super.key});
 
   final Wallpaper wallpaper;
 

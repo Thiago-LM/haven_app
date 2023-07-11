@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class RoundedSquareButton extends StatelessWidget {
   const RoundedSquareButton({
-    super.key,
     required this.name,
     required this.icon,
     this.action,
+    super.key,
   });
 
   final String name;

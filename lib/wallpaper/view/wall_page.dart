@@ -6,7 +6,7 @@ import 'package:haven_app/wallhaven/repository/wallhaven_repository.dart';
 import 'package:haven_app/wallpaper/wallpaper.dart';
 
 class WallPage extends StatelessWidget {
-  const WallPage({super.key, required this.id, required this.url});
+  const WallPage({required this.id, required this.url, super.key});
 
   final String id;
   final String url;
@@ -21,7 +21,7 @@ class WallPage extends StatelessWidget {
 }
 
 class WallView extends StatefulWidget {
-  const WallView({super.key, required this.id, required this.url});
+  const WallView({required this.id, required this.url, super.key});
 
   final String id;
   final String url;
