@@ -1,6 +1,26 @@
-import 'package:haven_app/bootstrap.dart';
-import 'package:haven_app/haven_app.dart';
-import 'package:haven_app/wallhaven/wallhaven.dart';
+import 'package:flutter/material.dart';
 
-void main() =>
-    bootstrap(() => HavenApp(wallhavenRepository: WallhavenRepository()));
+import 'package:get/get.dart';
+
+import 'modules/tab_bar_navigation/tab_bar_navigation_binding.dart';
+import 'routes/app_pages.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      title: 'Haven App',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
+        useMaterial3: true,
+      ),
+      getPages: AppPages.pages,
+      initialRoute: Routes.initial,
+      initialBinding: TabBarNavigationBinding(),
+    );
+  }
+}
