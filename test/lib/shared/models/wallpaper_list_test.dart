@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:haven_app/shared/models/models.dart';
 
 void main() {
@@ -30,14 +31,14 @@ void main() {
                     '#996633',
                     '#000000',
                     '#cc6633',
-                    '#ea4c88'
+                    '#ea4c88',
                   ],
                   'path': 'https://w.wallhaven.cc/full/zy/wallhaven-zyxvqy.jpg',
                   'thumbs': {
                     'large': 'https://th.wallhaven.cc/lg/zy/zyxvqy.jpg',
                     'original': 'https://th.wallhaven.cc/orig/zy/zyxvqy.jpg',
-                    'small': 'https://th.wallhaven.cc/small/zy/zyxvqy.jpg'
-                  }
+                    'small': 'https://th.wallhaven.cc/small/zy/zyxvqy.jpg',
+                  },
                 }
               ],
               'meta': {
@@ -46,8 +47,8 @@ void main() {
                 'per_page': 24,
                 'total': 3510,
                 'query': null,
-                'seed': null
-              }
+                'seed': null,
+              },
             },
           ),
           isA<WallpaperList>()

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:haven_app/shared/models/models.dart';
 
 void main() {
@@ -28,8 +29,8 @@ void main() {
               'thumbs': {
                 'large': 'https://th.wallhaven.cc/lg/zy/zyxvqy.jpg',
                 'original': 'https://th.wallhaven.cc/or/zy/zyxvqy.jpg',
-                'small': 'https://th.wallhaven.cc/small/zy/zyxvqy.jpg'
-              }
+                'small': 'https://th.wallhaven.cc/small/zy/zyxvqy.jpg',
+              },
             },
           ),
           isA<Wallpaper>()
@@ -78,7 +79,7 @@ void main() {
                 Thumbs.fromJson(const {
                   'large': 'https://th.wallhaven.cc/lg/zy/zyxvqy.jpg',
                   'original': 'https://th.wallhaven.cc/or/zy/zyxvqy.jpg',
-                  'small': 'https://th.wallhaven.cc/small/zy/zyxvqy.jpg'
+                  'small': 'https://th.wallhaven.cc/small/zy/zyxvqy.jpg',
                 }),
               ),
         );

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:haven_app/shared/models/thumbs.dart';
 
 void main() {
@@ -10,7 +11,7 @@ void main() {
             const <String, dynamic>{
               'large': 'https://th.wallhaven.cc/lg/zy/zyxvqy.jpg',
               'original': 'https://th.wallhaven.cc/orig/zy/zyxvqy.jpg',
-              'small': 'https://th.wallhaven.cc/small/zy/zyxvqy.jpg'
+              'small': 'https://th.wallhaven.cc/small/zy/zyxvqy.jpg',
             },
           ),
           isA<Thumbs>()

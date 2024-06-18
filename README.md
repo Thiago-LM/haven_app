@@ -12,7 +12,7 @@ A Very Good Project created by Very Good CLI.
 
 This is an experiment with [wallhaven](https://wallhaven.cc/) api made with Flutter.
 
-## Getting Started
+## Getting Started 🚀
 
 A few resources to get you started in this project:
 
@@ -44,7 +44,7 @@ samples, guidance on mobile development, and a full API reference.
 | ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
 |![Home Page](screenshots/macOS_Screenshot_1.png)|![Custom Dialog](screenshots/macOS_Screenshot_2.png)|![Wall Page](screenshots/macOS_Screenshot_3.png)|![Download Working](screenshots/macOS_Screenshot_4.png)|
 
-### Arch Linux
+### Linux
 
 |                    Home Page                     |                      Wall Page                       |                 Wall Page - Info                 |                        Save Page                        |
 | ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
@@ -56,7 +56,7 @@ samples, guidance on mobile development, and a full API reference.
 | ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
 |![Home Page](screenshots/Windows_Screenshot_1.png)|![Custom Dialog](screenshots/Windows_Screenshot_2.png)|![Wall Page](screenshots/Windows_Screenshot_3.png)|![Download Working](screenshots/Windows_Screenshot_4.png)|
 
-_\*Haven App works on Android, iOS, macOS, Arch Linux and Windows._
+_\*Haven App works on Android, iOS, macOS, Linux and Windows._
 
 ---
 
@@ -178,6 +178,18 @@ Update the `CFBundleLocalizations` array in the `Info.plist` at `ios/Runner/Info
     }
 }
 ```
+
+### Generating Translations
+
+To use the latest translations changes, you will need to generate them:
+
+1. Generate localizations for the current project:
+
+```sh
+flutter gen-l10n --arb-dir="lib/l10n/arb"
+```
+
+Alternatively, run `flutter run` and code generation will take place automatically.
 
 [coverage_badge]: coverage_badge.svg
 [flutter_localizations_link]: https://api.flutter.dev/flutter/flutter_localizations/flutter_localizations-library.html

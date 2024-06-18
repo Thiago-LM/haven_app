@@ -14,9 +14,8 @@ class WallpaperState extends Equatable {
   WallpaperState copyWith({WallpaperInfo? wallpaper}) =>
       WallpaperState(wallpaper: wallpaper ?? this.wallpaper);
 
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'wallpaper': wallpaper == null ? null : wallpaper!.toJson()
-      };
+  Map<String, dynamic> toJson() =>
+      <String, dynamic>{'wallpaper': wallpaper?.toJson()};
 
   @override
   List<Object?> get props => [wallpaper];

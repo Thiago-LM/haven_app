@@ -45,7 +45,7 @@ class _CustomSearchDialogState extends State<CustomSearchDialog> {
                 'random',
                 'views',
                 'favorites',
-                'toplist'
+                'toplist',
               ],
               hasSorting: true,
             ),
@@ -193,7 +193,7 @@ class _CustomSearchDialogState extends State<CustomSearchDialog> {
           IconButton(
             onPressed: () => setState(() => isDesc = !isDesc),
             icon: Icon(isDesc ? Icons.arrow_downward : Icons.arrow_upward),
-          )
+          ),
       ],
     );
   }

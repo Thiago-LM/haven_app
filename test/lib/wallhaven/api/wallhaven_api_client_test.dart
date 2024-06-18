@@ -1,9 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter_test/flutter_test.dart';
-import 'package:haven_app/shared/models/models.dart';
-import 'package:haven_app/wallhaven/api/wallhaven_api_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
+
+import 'package:haven_app/shared/models/models.dart';
+import 'package:haven_app/wallhaven/api/wallhaven_api_client.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
 
@@ -191,7 +192,7 @@ void main() {
                 Thumbs.fromJson(const {
                   'large': 'https://th.wallhaven.cc/lg/zy/zyxvqy.jpg',
                   'original': 'https://th.wallhaven.cc/or/zy/zyxvqy.jpg',
-                  'small': 'https://th.wallhaven.cc/small/zy/zyxvqy.jpg'
+                  'small': 'https://th.wallhaven.cc/small/zy/zyxvqy.jpg',
                 }),
               )
               .having((l) => l.meta, 'meta', isA<Meta>())

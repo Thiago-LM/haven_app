@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+
 import 'package:haven_app/shared/models/meta.dart';
 
 void main() {
@@ -13,7 +14,7 @@ void main() {
               'per_page': 24,
               'total': 3510,
               'query': null,
-              'seed': null
+              'seed': null,
             },
           ),
           isA<Meta>()
