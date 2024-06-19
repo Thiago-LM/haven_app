@@ -29,14 +29,13 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   HomeCubit get cubit => context.read<HomeCubit>();
-  late TextEditingController _textController;
+  final _textController = TextEditingController();
   String searchTitle = 'Best of the month';
-  final _scrollController = ScrollController();
 
   @override
   void initState() {
     cubit.fetchWallpaper();
-    _textController = TextEditingController();
+    _textController.addListener(() => setState(() {}));
 
     super.initState();
   }
@@ -44,7 +43,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   void dispose() {
     _textController.dispose();
-    _scrollController.dispose();
     super.dispose();
   }
 
@@ -54,81 +52,108 @@ class _HomeViewState extends State<HomeView> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(width: 2, color: Colors.transparent),
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-              color: Colors.white,
-            ),
-            padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            child: TextField(
-              controller: _textController,
-              decoration: InputDecoration(
-                hintText: 'Find Wallpaper...',
-                hintStyle: const TextStyle(color: Colors.grey),
-                suffixIcon: IconButton(
-                  icon: const Icon(
-                    CupertinoIcons.search,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () async {
-                    cubit.updateStatus(HomeStatus.loading);
-                    await cubit.fetchWallpaper(query: _textController.text);
-                    setState(() => searchTitle = _textController.text);
-                    _textController.clear();
-                  },
-                ),
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
+          _homeSearchBar(),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              const Icon(
+                Icons.diamond_outlined,
+                color: Colors.purple,
               ),
-            ),
+              const SizedBox(width: 10),
+              Text(
+                searchTitle,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
-          Text(
-            searchTitle,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+          _homeWallpaperList(mediaSize: mediaSize),
+          const SizedBox(height: 32),
+          _homeCategoryListButtons(),
+        ],
+      ),
+    );
+  }
+
+  Widget _homeSearchBar() => Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 2, color: Colors.transparent),
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          color: Colors.white,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        child: IntrinsicHeight(
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _textController,
+                  decoration: InputDecoration(
+                    hintText: 'Search...',
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    suffixIcon: _textController.text.isEmpty
+                        ? null
+                        : IconButton(
+                            icon: const Icon(
+                              Icons.close,
+                              color: Colors.grey,
+                            ),
+                            onPressed: _textController.clear,
+                          ),
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                  ),
+                ),
+              ),
+              const VerticalDivider(),
+              IconButton(
+                icon: const Icon(CupertinoIcons.search),
+                color: Colors.grey,
+                onPressed: () async {
+                  cubit.updateStatus(HomeStatus.loading);
+                  await cubit.fetchWallpaper(
+                    query: _textController.text,
+                  );
+                  setState(() => searchTitle = _textController.text);
+                  _textController.clear();
+                },
+              ),
+            ],
           ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                cubit.updateStatus(HomeStatus.loading);
-                await cubit.fetchWallpaper();
-              },
-              child: BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) {
-                  switch (state.status) {
-                    case HomeStatus.initial:
-                    case HomeStatus.loading:
-                      return const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      );
-                    case HomeStatus.success:
-                      return GridView.builder(
-                        itemCount: state.wallpaperList.data.length,
-                        shrinkWrap: true,
-                        controller: _scrollController
-                          ..addListener(() async {
-                            if (_scrollController.position.pixels ==
-                                    _scrollController
-                                        .position.maxScrollExtent &&
-                                state.wallpaperList.data.length <
-                                    state.wallpaperList.meta.total &&
-                                !state.status.isLoading) {
-                              cubit.updateStatus(HomeStatus.loading);
-                              await cubit.fetchWallpaper(
-                                query: searchTitle,
-                                pageIndex:
-                                    state.wallpaperList.meta.currentPage + 1,
-                              );
-                            }
-                          }),
-                        itemBuilder: (context, index) {
-                          return ClipRRect(
+        ),
+      );
+
+  Widget _homeWallpaperList({required Size mediaSize}) => RefreshIndicator(
+        onRefresh: () async {
+          cubit.updateStatus(HomeStatus.loading);
+          await cubit.fetchWallpaper();
+        },
+        child: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            switch (state.status) {
+              case HomeStatus.initial:
+              case HomeStatus.loading:
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                );
+              case HomeStatus.success:
+                return SizedBox(
+                  height: mediaSize.height * 0.3,
+                  child: Expanded(
+                    child: ListView.builder(
+                      itemCount: state.wallpaperList.data.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: mediaSize.width * 0.4,
+                          padding: const EdgeInsets.only(top: 8, right: 16),
+                          child: ClipRRect(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15)),
                             child: GestureDetector(
@@ -154,26 +179,88 @@ class _HomeViewState extends State<HomeView> {
                                 ),
                               ),
                             ),
-                          );
-                        },
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          mainAxisExtent: mediaSize.height / 4.5,
-                        ),
-                      );
-                    case HomeStatus.failure:
-                      return const Center(
-                        child: Text('Failed to load wallpaper'),
-                      );
-                  }
-                },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              case HomeStatus.failure:
+                return const Center(
+                  child: Text('Failed to load wallpaper'),
+                );
+            }
+          },
+        ),
+      );
+
+  Widget _homeCategoryListButtons() => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Column(
+            children: [
+              TextButton.icon(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.purple,
+                  backgroundColor: Colors.purple[50],
+                ),
+                icon: const Icon(Icons.diamond_outlined, size: 36),
+                label: const Text(
+                  'Toplist',
+                  style: TextStyle(fontSize: 20),
+                ),
               ),
-            ),
+              const SizedBox(height: 16),
+              TextButton.icon(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.green,
+                  backgroundColor: Colors.green[50],
+                ),
+                icon: const Icon(Icons.schedule_outlined, size: 36),
+                label: const Text(
+                  'Latest',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              TextButton.icon(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.red,
+                  backgroundColor: Colors.red[50],
+                ),
+                icon: const Icon(
+                  Icons.local_fire_department_outlined,
+                  size: 36,
+                ),
+                label: const Text(
+                  'Hot',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextButton.icon(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.orange,
+                  backgroundColor: Colors.orange[50],
+                ),
+                icon: const Icon(
+                  Icons.shuffle_outlined,
+                  size: 36,
+                ),
+                label: const Text(
+                  'Random',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ],
           ),
         ],
-      ),
-    );
-  }
+      );
 }
