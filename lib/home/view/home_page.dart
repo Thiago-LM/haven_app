@@ -1,6 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:haven_app/home/cubit/home_cubit.dart';
 import 'package:haven_app/wallhaven/wallhaven.dart';
 import 'package:haven_app/wallpaper/view/wall_page.dart';
@@ -49,27 +52,26 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Column(
         children: [
           Container(
             decoration: BoxDecoration(
-              border: Border.all(width: 2),
+              border: Border.all(width: 2, color: Colors.transparent),
               borderRadius: const BorderRadius.all(Radius.circular(15)),
               color: Colors.white,
             ),
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 6),
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: TextField(
               controller: _textController,
-              cursorColor: Colors.black,
               decoration: InputDecoration(
                 hintText: 'Find Wallpaper...',
-                hintStyle: const TextStyle(color: Colors.black87),
+                hintStyle: const TextStyle(color: Colors.grey),
                 suffixIcon: IconButton(
                   icon: const Icon(
-                    Icons.search,
-                    color: Colors.black87,
+                    CupertinoIcons.search,
+                    color: Colors.grey,
                   ),
                   onPressed: () async {
                     cubit.updateStatus(HomeStatus.loading);

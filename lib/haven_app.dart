@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:haven_app/tab_bar_navigation/tab_bar_navigation.dart';
+import 'package:haven_app/navigation_bar/navigation_bar.dart';
 import 'package:haven_app/wallhaven/wallhaven.dart';
 
 class HavenApp extends StatelessWidget {
@@ -29,7 +29,7 @@ class HavenAppView extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyan),
         useMaterial3: true,
       ),
-      home: const TabBarNavigationPage(),
+      home: const NavigationBarPage(),
     );
   }
 }

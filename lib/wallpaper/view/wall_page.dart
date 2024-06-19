@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:haven_app/wallhaven/repository/wallhaven_repository.dart';
 import 'package:haven_app/wallpaper/wallpaper.dart';
-import 'package:haven_app/wallpaper/widgets/save_dialog.dart';
 
 class WallPage extends StatelessWidget {
   const WallPage({required this.id, required this.url, super.key});

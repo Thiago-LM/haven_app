@@ -3,8 +3,12 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:haven_app/shared/models/wallpaper.dart';
+import 'package:flutter/services.dart';
+
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:haven_app/shared/models/wallpaper.dart';
+import 'package:haven_app/shared/shared.dart';
 
 class InfoDialog extends StatelessWidget {
   InfoDialog({required this.wallpaper, super.key});
@@ -102,11 +106,7 @@ class InfoDialog extends StatelessWidget {
                 fontSize: 12,
               ),
               recognizer: TapGestureRecognizer()
-                ..onTap = () => launchUrl(
-                      Uri.parse(
-                        wallpaper.shortUrl,
-                      ),
-                    ),
+                ..onTap = () => launchUrl(Uri.parse(wallpaper.shortUrl)),
             ),
             const TextSpan(
               text: '\ndate added: ',
@@ -117,14 +117,41 @@ class InfoDialog extends StatelessWidget {
               text: '\ncolors: ',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            TextSpan(text: '[ ${wallpaper.colors.map((e) => e).join(', ')} ]'),
+            for (final color in wallpaper.colors) ...[
+              TextSpan(text: color == wallpaper.colors.first ? '[ ' : ''),
+              TextSpan(
+                text: '■',
+                style: TextStyle(color: HexColor.fromHex(color)),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => Clipboard.setData(ClipboardData(text: color)),
+              ),
+              TextSpan(
+                text: color == wallpaper.colors.last ? ' $color' : ' $color, ',
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => Clipboard.setData(ClipboardData(text: color)),
+              ),
+              TextSpan(text: color == wallpaper.colors.last ? ' ]' : ''),
+            ],
             const TextSpan(
               text: '\ntags: ',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            TextSpan(
-              text: '[ ${wallpaper.tags.map((e) => e.name).join(', ')} ]',
-            ),
+            for (final tag in wallpaper.tags) ...[
+              TextSpan(text: tag == wallpaper.tags.first ? '[ ' : ''),
+              TextSpan(
+                text: tag.name,
+                style: const TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => launchUrl(
+                        Uri.parse('https://wallhaven.cc/tag/${tag.id}'),
+                      ),
+              ),
+              TextSpan(text: tag == wallpaper.tags.last ? '' : ', '),
+              TextSpan(text: tag == wallpaper.tags.last ? ' ]' : ''),
+            ],
           ],
         ),
       ),
