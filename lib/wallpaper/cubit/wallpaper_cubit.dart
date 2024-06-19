@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:http/http.dart' as http;
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:haven_app/shared/shared.dart';
 import 'package:haven_app/wallhaven/wallhaven.dart';
@@ -30,6 +32,8 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
           late Directory dir;
           controller.add('Getting pictures folder...');
 
+          await verifyPermission();
+
           switch (Platform.operatingSystem) {
             case 'android':
               dir = Directory('storage/emulated/0/Pictures/wallhaven/');
@@ -50,7 +54,7 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
           final fileBodyBytes = await http.readBytes(Uri.parse(url));
           file.writeAsBytesSync(fileBodyBytes);
 
-          controller.add('Image downloaded at:\nPictures/wallhaven/');
+          controller.add('Image downloaded at wallhaven/');
           await controller.close();
         },
       );
@@ -58,6 +62,20 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
       return controller.stream;
     } catch (e) {
       return Stream.error('Error on download image!');
+    }
+  }
+
+  Future<void> verifyPermission() async {
+    final deviceInfo = DeviceInfoPlugin();
+
+    switch (Platform.operatingSystem) {
+      case 'android':
+        final androidInfo = await deviceInfo.androidInfo;
+        if (androidInfo.version.sdkInt < 33) {
+          await Permission.storage.request();
+        } else {
+          await Permission.photos.request();
+        }
     }
   }
 
