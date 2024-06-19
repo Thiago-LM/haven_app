@@ -1,9 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:haven_app/wallhaven/repository/wallhaven_repository.dart';
 import 'package:haven_app/wallpaper/wallpaper.dart';
+import 'package:haven_app/wallpaper/widgets/save_dialog.dart';
 
 class WallPage extends StatelessWidget {
   const WallPage({required this.id, required this.url, super.key});
@@ -85,7 +88,12 @@ class _WallViewState extends State<WallView> {
                 RoundedSquareButton(
                   name: 'Save',
                   icon: Icons.download,
-                  action: () async => cubit.downloadImage(url: widget.url),
+                  action: () => showCupertinoModalPopup<void>(
+                    context: context,
+                    builder: (BuildContext context) => SaveDialog(
+                      stream: cubit.downloadImageStream(url: widget.url),
+                    ),
+                  ),
                 ),
               ],
             ),
