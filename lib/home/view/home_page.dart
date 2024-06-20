@@ -76,6 +76,8 @@ class _HomeViewState extends State<HomeView> {
             },
           ),
           const SizedBox(height: 32),
+          const HomeColorsToneList(),
+          const SizedBox(height: 32),
           HomeCategoryListButtons(
             toplistOnPressed: () async {
               _textController.clear();

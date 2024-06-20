@@ -16,10 +16,24 @@ class HomeCategoryListButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
+        const Text(
+          'Categories',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 16),
+        GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 2,
+          mainAxisSpacing: 16,
+          crossAxisSpacing: 16,
+          childAspectRatio: 2,
           children: [
             customButton(
               onPressed: toplistOnPressed,
@@ -27,24 +41,18 @@ class HomeCategoryListButtons extends StatelessWidget {
               icon: Icons.diamond_outlined,
               label: 'Toplist',
             ),
-            const SizedBox(height: 16),
-            customButton(
-              onPressed: latestOnPressed,
-              foregroundColor: Colors.green,
-              icon: Icons.schedule_outlined,
-              label: 'Latest',
-            ),
-          ],
-        ),
-        Column(
-          children: [
             customButton(
               onPressed: hotOnPressed,
               foregroundColor: Colors.red,
               icon: Icons.local_fire_department_outlined,
               label: 'Hot',
             ),
-            const SizedBox(height: 16),
+            customButton(
+              onPressed: latestOnPressed,
+              foregroundColor: Colors.green,
+              icon: Icons.schedule_outlined,
+              label: 'Latest',
+            ),
             customButton(
               onPressed: randomOnPressed,
               foregroundColor: Colors.orange,
@@ -53,6 +61,7 @@ class HomeCategoryListButtons extends StatelessWidget {
             ),
           ],
         ),
+        const SizedBox(height: 16),
       ],
     );
   }
@@ -68,6 +77,9 @@ class HomeCategoryListButtons extends StatelessWidget {
         style: TextButton.styleFrom(
           foregroundColor: foregroundColor,
           backgroundColor: foregroundColor[50],
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+          ),
         ),
         icon: Icon(icon, size: 36),
         label: Text(

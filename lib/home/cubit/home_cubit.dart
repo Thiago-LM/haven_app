@@ -32,6 +32,7 @@ class HomeCubit extends HydratedCubit<HomeState> {
           state.copyWith(
             status: HomeStatus.success,
             wallpaperList: wallpaperList,
+            colorsData: getColorsData(wallpaperList.data),
           ),
         );
       } catch (e) {
@@ -39,6 +40,18 @@ class HomeCubit extends HydratedCubit<HomeState> {
         emit(state.copyWith(status: HomeStatus.failure));
       }
     }
+  }
+
+  Map<String, int> getColorsData(List<Wallpaper> data) {
+    final colorsMap = <String, int>{};
+
+    for (final wallpaper in data) {
+      for (final color in wallpaper.colors) {
+        colorsMap[color] = (colorsMap[color] ?? 0) + 1;
+      }
+    }
+
+    return colorsMap;
   }
 
   void updateStatus(HomeStatus status) => emit(state.copyWith(status: status));

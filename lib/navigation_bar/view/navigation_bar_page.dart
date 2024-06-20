@@ -75,7 +75,7 @@ class _NavigationBarViewState extends State<NavigationBarView> {
             ),
           ),
           child: <Widget>[
-            const HomePage(),
+            const SingleChildScrollView(child: HomePage()),
             const SavePage(),
             const Center(child: Text('User')),
           ][currentPageIndex],
