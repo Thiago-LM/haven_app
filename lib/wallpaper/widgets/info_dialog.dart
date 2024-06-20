@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:haven_app/shared/models/wallpaper.dart';
 import 'package:haven_app/shared/shared.dart';
 
 class InfoDialog extends StatelessWidget {

@@ -23,7 +23,9 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
   Stream<String> downloadImageStream({required String url}) {
     if (Platform.isIOS) {
       return Stream.error('Please use the Share button!');
-    } else if (!Platform.isAndroid && !Platform.isMacOS) {
+    } else if (!Platform.isAndroid &&
+        !Platform.isMacOS &&
+        !Platform.isWindows) {
       return Stream.error('Operating system not supported!');
     }
 
@@ -35,7 +37,9 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
           late Directory dir;
           controller.add('Getting pictures folder...');
 
-          await verifyPermission();
+          if (Platform.isAndroid) {
+            await verifyPermission();
+          }
 
           switch (Platform.operatingSystem) {
             case 'android':
@@ -44,6 +48,11 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
               final docDir = await getApplicationDocumentsDirectory();
               final listDirString = docDir.path.split('/');
               dir = Directory('/Users/${listDirString[2]}/Pictures/wallhaven/');
+            case 'windows':
+              final docDir = await getApplicationDocumentsDirectory();
+              final listDirString = docDir.path.split(r'\');
+              dir =
+                  Directory('C:/Users/${listDirString[2]}/Pictures/wallhaven/');
           }
 
           if (!dir.existsSync()) {
@@ -57,7 +66,7 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
           final fileBodyBytes = await http.readBytes(Uri.parse(url));
           file.writeAsBytesSync(fileBodyBytes);
 
-          controller.add('Image downloaded at wallhaven/');
+          controller.add('Image downloaded at Pictures/wallhaven/');
           await controller.close();
         },
       );
