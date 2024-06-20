@@ -9,10 +9,15 @@ class WallhavenRepository {
 
   final WallhavenApiClient _wallhavenApiClient;
 
-  Future<WallpaperList> getWallpaper({String? query, int? pageIndex}) async {
+  Future<WallpaperList> getWallpaper({
+    String? query,
+    int? pageIndex,
+    WallpaperSorting? sorting,
+  }) async {
     final wallpaperList = await _wallhavenApiClient.wallpaperSearch(
       query: query,
       pageIndex: pageIndex ?? 1,
+      sorting: sorting ?? WallpaperSorting.toplist,
     );
     return wallpaperList;
   }

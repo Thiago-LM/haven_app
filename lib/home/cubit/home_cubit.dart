@@ -1,9 +1,10 @@
 import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+
 import 'package:haven_app/shared/shared.dart';
 import 'package:haven_app/wallhaven/wallhaven.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'home_state.dart';
 
@@ -12,7 +13,11 @@ class HomeCubit extends HydratedCubit<HomeState> {
 
   final WallhavenRepository _wallhavenRepository;
 
-  Future<void> fetchWallpaper({String? query, int? pageIndex}) async {
+  Future<void> fetchWallpaper({
+    String? query,
+    int? pageIndex,
+    WallpaperSorting? sorting,
+  }) async {
     if (state.status != HomeStatus.success) {
       emit(state.copyWith(status: HomeStatus.loading));
 
@@ -20,6 +25,7 @@ class HomeCubit extends HydratedCubit<HomeState> {
         final wallpaperList = await _wallhavenRepository.getWallpaper(
           query: query,
           pageIndex: pageIndex ?? 1,
+          sorting: sorting ?? WallpaperSorting.toplist,
         );
 
         emit(

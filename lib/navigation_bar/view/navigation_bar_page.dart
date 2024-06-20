@@ -26,6 +26,7 @@ class _NavigationBarViewState extends State<NavigationBarView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           setState(() {
