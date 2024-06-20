@@ -60,17 +60,24 @@ class _WallViewState extends State<WallView> {
             fit: BoxFit.cover,
           ),
           Positioned(
+            top: 48,
+            left: 16,
+            child: IconButton(
+              icon: const Icon(CupertinoIcons.back),
+              color: Colors.white,
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all(Colors.white24),
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+          Positioned(
             bottom: 30,
             left: 5,
             right: 5,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                RoundedSquareButton(
-                  name: 'Back',
-                  icon: CupertinoIcons.back,
-                  action: () => Navigator.of(context).pop(),
-                ),
                 BlocBuilder<WallpaperCubit, WallpaperState>(
                   builder: (context, state) {
                     return RoundedSquareButton(
@@ -91,6 +98,21 @@ class _WallViewState extends State<WallView> {
                     context: context,
                     builder: (BuildContext context) => SaveDialog(
                       stream: cubit.downloadImageStream(url: widget.url),
+                    ),
+                  ),
+                ),
+                RoundedSquareButton(
+                  name: 'Share',
+                  icon: CupertinoIcons.share,
+                  action: () => showCupertinoModalPopup<void>(
+                    context: context,
+                    builder: (BuildContext context) => ShareDialog(
+                      onPressedFile: () => cubit
+                          .shareWallpaper(url: widget.url, isFile: true)
+                          .then((value) => Navigator.of(context).pop()),
+                      onPressedLink: () => cubit
+                          .shareWallpaper(url: widget.url, isFile: false)
+                          .then((value) => Navigator.of(context).pop()),
                     ),
                   ),
                 ),

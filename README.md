@@ -28,33 +28,33 @@ samples, guidance on mobile development, and a full API reference.
 
 ### Android
 
-|                    Home Page                     |                      Wall Page                       |                 Wall Page - Info                 |                        Save Page                        |
-| ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
-|![Home Page](screenshots/Android_Screenshot_1.png)|![Custom Dialog](screenshots/Android_Screenshot_2.png)|![Wall Page](screenshots/Android_Screenshot_3.png)|![Download Working](screenshots/Android_Screenshot_4.png)|
+|                    Home Page                     |                    Wall Page                     |                        Wall Page - Info                        |                        Wall Page - Share                        |                    Save Page                     |
+| ------------------------------------------------ | ------------------------------------------------ | -------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------ |
+|![Home Page](screenshots/Android_Screenshot_1.png)|![Wall Page](screenshots/Android_Screenshot_2.png)|![Wall Page - Info Dialog](screenshots/Android_Screenshot_3.png)|![Wall Page - Share Dialog](screenshots/Android_Screenshot_4.png)|![Save Page](screenshots/Android_Screenshot_5.png)|
 
 ### iOS
 
-|                    Home Page                     |                      Wall Page                       |                 Wall Page - Info                 |                        Save Page                        |
-| ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
-|![Home Page](screenshots/iOS_Screenshot_1.png)|![Custom Dialog](screenshots/iOS_Screenshot_2.png)|![Wall Page](screenshots/iOS_Screenshot_3.png)|![Download Working](screenshots/iOS_Screenshot_4.png)|
+|                  Home Page                   |                  Wall Page                   |                      Wall Page - Info                      |                      Wall Page - Share                      |                  Save Page                   |
+| -------------------------------------------- | -------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------- | -------------------------------------------- |
+|![Home Page](screenshots/iOS_Screenshot_1.png)|![Wall Page](screenshots/iOS_Screenshot_2.png)|![Wall Page - Info Dialog](screenshots/iOS_Screenshot_3.png)|![Wall Page - Share Dialog](screenshots/iOS_Screenshot_4.png)|![Save Page](screenshots/iOS_Screenshot_5.png)|
 
 ### macOS
 
-|                    Home Page                     |                      Wall Page                       |                 Wall Page - Info                 |                        Save Page                        |
-| ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
-|![Home Page](screenshots/macOS_Screenshot_1.png)|![Custom Dialog](screenshots/macOS_Screenshot_2.png)|![Wall Page](screenshots/macOS_Screenshot_3.png)|![Download Working](screenshots/macOS_Screenshot_4.png)|
+|                   Home Page                    |                   Wall Page                    |                       Wall Page - Info                       |                       Wall Page - Share                       |                   Save Page                    |
+| ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------- | ---------------------------------------------- |
+|![Home Page](screenshots/macOS_Screenshot_1.png)|![Wall Page](screenshots/macOS_Screenshot_2.png)|![Wall Page - Info Dialog](screenshots/macOS_Screenshot_3.png)|![Wall Page - Share Dialog](screenshots/macOS_Screenshot_4.png)|![Save Page](screenshots/macOS_Screenshot_5.png)|
 
 ### Linux
 
-|                    Home Page                     |                      Wall Page                       |                 Wall Page - Info                 |                        Save Page                        |
-| ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
-|![Home Page](screenshots/linux_Screenshot_1.png)|![Custom Dialog](screenshots/linux_Screenshot_2.png)|![Wall Page](screenshots/linux_Screenshot_3.png)|![Download Working](screenshots/linux_Screenshot_4.png)|
+|                   Home Page                    |                   Wall Page                    |                       Wall Page - Info                       |                   Save Page                    |
+| ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------- |
+|![Home Page](screenshots/linux_Screenshot_1.png)|![Wall Page](screenshots/linux_Screenshot_2.png)|![Wall Page - Info Dialog](screenshots/linux_Screenshot_3.png)|![Save Page](screenshots/linux_Screenshot_4.png)|
 
 ### Windows
 
-|                    Home Page                     |                      Wall Page                       |                 Wall Page - Info                 |                        Save Page                        |
-| ------------------------------------------------ | ---------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------------- |
-|![Home Page](screenshots/Windows_Screenshot_1.png)|![Custom Dialog](screenshots/Windows_Screenshot_2.png)|![Wall Page](screenshots/Windows_Screenshot_3.png)|![Download Working](screenshots/Windows_Screenshot_4.png)|
+|                    Home Page                     |                    Wall Page                     |                        Wall Page - Info                        |                    Save Page                     |
+| ------------------------------------------------ | ------------------------------------------------ | -------------------------------------------------------------- | ------------------------------------------------ |
+|![Home Page](screenshots/Windows_Screenshot_1.png)|![Wall Page](screenshots/Windows_Screenshot_2.png)|![Wall Page - Info Dialog](screenshots/Windows_Screenshot_3.png)|![Save Page](screenshots/Windows_Screenshot_4.png)|
 
 _\*Haven App works on Android, iOS, macOS, Linux and Windows._
 

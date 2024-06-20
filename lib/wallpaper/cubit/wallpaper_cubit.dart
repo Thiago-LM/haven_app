@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'package:haven_app/shared/shared.dart';
 import 'package:haven_app/wallhaven/wallhaven.dart';
@@ -20,7 +21,9 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
   final WallhavenRepository _wallhavenRepository;
 
   Stream<String> downloadImageStream({required String url}) {
-    if (!Platform.isAndroid && !Platform.isMacOS) {
+    if (Platform.isIOS) {
+      return Stream.error('Please use the Share button!');
+    } else if (!Platform.isAndroid && !Platform.isMacOS) {
       return Stream.error('Operating system not supported!');
     }
 
@@ -76,6 +79,32 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
         } else {
           await Permission.photos.request();
         }
+    }
+  }
+
+  Future<void> shareWallpaper({
+    required String url,
+    required bool isFile,
+  }) async {
+    try {
+      if (isFile) {
+        final dir = await getTemporaryDirectory();
+
+        final file =
+            File('${dir.path}/${url.substring(url.lastIndexOf('/') + 1)}');
+        final fileBodyBytes = await http.readBytes(Uri.parse(url));
+        file.writeAsBytesSync(fileBodyBytes);
+
+        await Share.shareXFiles([XFile(file.path)]);
+      } else {
+        if (Platform.isAndroid || Platform.isIOS) {
+          await Share.shareUri(Uri.parse(url));
+        } else {
+          await Share.share(url);
+        }
+      }
+    } on Exception catch (e) {
+      log('e = $e', name: 'WallpaperCubit');
     }
   }
 
