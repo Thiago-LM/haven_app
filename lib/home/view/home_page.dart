@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:haven_app/home/home.dart';
+import 'package:haven_app/shared/models/models.dart';
 import 'package:haven_app/wallhaven/wallhaven.dart';
 
 class HomePage extends StatelessWidget {
@@ -39,7 +40,6 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     cubit.fetchWallpaper();
     _textController.addListener(() => setState(() {}));
-
     super.initState();
   }
 
@@ -58,13 +58,23 @@ class _HomeViewState extends State<HomeView> {
         children: [
           HomeSearchBar(
             textController: _textController,
-            onPressed: () async {
+            onFilterPressed: () => showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext _) {
+                return CustomSearchDialog(ctx: context);
+              },
+            ),
+            onSearchPressed: () async {
               setState(
                 () => searchTitleModel =
                     HomeSearchTitleModel.search(_textController.text),
               );
               cubit.updateStatus(HomeStatus.loading);
-              await cubit.fetchWallpaper(query: _textController.text);
+              await cubit.fetchWallpaper(
+                wallQuery: cubit.state.wallQuery.copyWith(
+                  query: _textController.text,
+                ),
+              );
             },
           ),
           const SizedBox(height: 16),
@@ -85,7 +95,11 @@ class _HomeViewState extends State<HomeView> {
                 () => searchTitleModel = const HomeSearchTitleModel.toplist(),
               );
               cubit.updateStatus(HomeStatus.loading);
-              await cubit.fetchWallpaper();
+              await cubit.fetchWallpaper(
+                wallQuery: const WallpaperQuery(
+                  sorting: WallpaperSorting.toplist,
+                ),
+              );
             },
             latestOnPressed: () async {
               _textController.clear();
@@ -93,7 +107,7 @@ class _HomeViewState extends State<HomeView> {
                 () => searchTitleModel = const HomeSearchTitleModel.latest(),
               );
               cubit.updateStatus(HomeStatus.loading);
-              await cubit.fetchWallpaper(sorting: WallpaperSorting.latest);
+              await cubit.fetchWallpaper(wallQuery: const WallpaperQuery());
             },
             hotOnPressed: () async {
               _textController.clear();
@@ -101,7 +115,11 @@ class _HomeViewState extends State<HomeView> {
                 () => searchTitleModel = const HomeSearchTitleModel.hot(),
               );
               cubit.updateStatus(HomeStatus.loading);
-              await cubit.fetchWallpaper(sorting: WallpaperSorting.hot);
+              await cubit.fetchWallpaper(
+                wallQuery: const WallpaperQuery(
+                  sorting: WallpaperSorting.hot,
+                ),
+              );
             },
             randomOnPressed: () async {
               _textController.clear();
@@ -109,7 +127,11 @@ class _HomeViewState extends State<HomeView> {
                 () => searchTitleModel = const HomeSearchTitleModel.random(),
               );
               cubit.updateStatus(HomeStatus.loading);
-              await cubit.fetchWallpaper(sorting: WallpaperSorting.random);
+              await cubit.fetchWallpaper(
+                wallQuery: const WallpaperQuery(
+                  sorting: WallpaperSorting.random,
+                ),
+              );
             },
           ),
         ],

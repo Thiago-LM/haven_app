@@ -6,3 +6,4 @@ export 'uploader.dart';
 export 'wallpaper.dart';
 export 'wallpaper_info.dart';
 export 'wallpaper_list.dart';
+export 'wallpaper_query.dart';

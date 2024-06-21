@@ -1,161 +1,127 @@
 import 'package:flutter/material.dart';
 
-class CustomSearchDialog extends StatefulWidget {
-  const CustomSearchDialog({required this.mediaSize, super.key});
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-  final Size mediaSize;
+import 'package:haven_app/home/cubit/home_cubit.dart';
+import 'package:haven_app/shared/models/models.dart';
 
-  @override
-  State<CustomSearchDialog> createState() => _CustomSearchDialogState();
-}
+class CustomSearchDialog extends StatelessWidget {
+  const CustomSearchDialog({required this.ctx, super.key});
 
-class _CustomSearchDialogState extends State<CustomSearchDialog> {
-  bool isDesc = true;
-  final dropdownValue = <String>['date_added', '1M'];
-  final _selectedCategory = <int>[0, 1, 2];
-  final _selectedPurity = <int>[0];
+  final BuildContext ctx;
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 10),
-      title: const Text(
-        'Custom Search',
-        textAlign: TextAlign.center,
-      ),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: <Widget>[
-            multipleChoiceLine(
-              name: 'categories',
-              options: ['general', 'anime', 'people'],
-              indexList: _selectedCategory,
-            ),
-            multipleChoiceLine(
-              name: 'purity',
-              options: ['sfw', 'sketchy', 'nsfw'],
-              indexList: _selectedPurity,
-            ),
-            dropdownLine(
-              name: 'sorting',
-              firstValue: dropdownValue[0],
-              options: [
-                'date_added',
-                'relevance',
-                'random',
-                'views',
-                'favorites',
-                'toplist',
-              ],
-              hasSorting: true,
-            ),
-            dropdownLine(
-              name: 'topRange',
-              firstValue: dropdownValue[1],
-              options: ['1d', '3d', '1w', '1M', '3M', '6M', '1y'],
-              hasSorting: false,
-            ),
-            Row(
-              children: [
-                const Text('atleast:'),
-                const SizedBox(width: 20),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    color: Colors.white,
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  height: 50,
-                  width: 75,
-                  child: TextField(
-                    cursorColor: Colors.grey,
-                    decoration: InputDecoration(
-                      hintText: 'width',
-                      hintStyle: TextStyle(color: Colors.grey[400]),
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                    ),
+    final mediaSize = MediaQuery.of(context).size;
+    final cubit = ctx.read<HomeCubit>();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+      child: BlocBuilder<HomeCubit, HomeState>(
+        bloc: cubit,
+        builder: (context, state) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              multipleChoiceLine(
+                name: 'categories',
+                options: ['general', 'anime', 'people'],
+                queryOptions: state.wallQuery.category,
+                onSelected: (value, index) {
+                  final temp = state.wallQuery.category.toList();
+                  temp[index] = value;
+                  cubit.updateWallpaperQuery(
+                    cubit.state.wallQuery.copyWith(category: temp),
+                  );
+                },
+              ),
+              multipleChoiceLine(
+                name: 'purity',
+                options: ['sfw', 'sketchy', 'nsfw'],
+                queryOptions: state.wallQuery.purity,
+                onSelected: (value, index) {
+                  final temp = state.wallQuery.purity.toList();
+                  temp[index] = temp[index] == null ? null : value;
+                  cubit.updateWallpaperQuery(
+                    cubit.state.wallQuery.copyWith(purity: temp),
+                  );
+                },
+              ),
+              dropdownLine<WallpaperSorting>(
+                name: 'sorting',
+                firstValue: state.wallQuery.sorting,
+                options: WallpaperSorting.values,
+                onChanged: (value) => cubit.updateWallpaperQuery(
+                  cubit.state.wallQuery.copyWith(sorting: value),
+                ),
+                hasSorting: true,
+                sort: state.wallQuery.order == WallpaperOrder.desc,
+                onSortPressed: () => cubit.updateWallpaperQuery(
+                  state.wallQuery.copyWith(
+                    order: state.wallQuery.order == WallpaperOrder.desc
+                        ? WallpaperOrder.asc
+                        : WallpaperOrder.desc,
                   ),
                 ),
-                const Text('X'),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    color: Colors.white,
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  height: 50,
-                  width: 75,
-                  child: TextField(
-                    cursorColor: Colors.grey,
-                    decoration: InputDecoration(
-                      hintText: 'height',
-                      hintStyle: TextStyle(color: Colors.grey[400]),
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                    ),
+              ),
+              if (state.wallQuery.sorting == WallpaperSorting.toplist)
+                dropdownLine<WallpaperTopRange>(
+                  name: 'topRange',
+                  firstValue: state.wallQuery.topRange,
+                  options: WallpaperTopRange.values,
+                  onChanged: (value) => cubit.updateWallpaperQuery(
+                    cubit.state.wallQuery.copyWith(topRange: value),
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              SizedBox(
+                height: 50,
+                width: mediaSize.width,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.all(16),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('OK'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
-      actions: <Widget>[
-        TextButton(
-          child: const Text('Back'),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ],
     );
   }
 
   Widget multipleChoiceLine({
     required String name,
     required List<String> options,
-    required List<int> indexList,
+    required List<bool?> queryOptions,
+    required void Function(bool, int) onSelected,
   }) {
     return Row(
       children: [
-        Text('$name:'),
-        const SizedBox(width: 20),
-        SizedBox(
-          height: 50,
-          width: widget.mediaSize.width - 200,
-          child: SingleChildScrollView(
-            physics: const ScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            child: Wrap(
-              spacing: 10,
-              children: List<Widget>.generate(
-                3,
-                (int index) => ChoiceChip(
-                  avatar: const CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    foregroundColor: Colors.black,
-                    child: Icon(Icons.done),
-                  ),
-                  backgroundColor: Colors.grey,
-                  selectedColor: Colors.blue,
-                  label: Text(
-                    index == 0
-                        ? options[0]
-                        : index == 1
-                            ? options[1]
-                            : index == 2
-                                ? options[2]
-                                : '',
-                  ),
-                  selected: indexList.contains(index),
-                  onSelected: (bool selected) => setState(
-                    () => indexList.contains(index)
-                        ? indexList.remove(index)
-                        : indexList.add(index),
-                  ),
-                ),
-              ).toList(),
+        Expanded(child: Text('$name:')),
+        Expanded(
+          flex: 4,
+          child: SizedBox(
+            height: 50,
+            child: SingleChildScrollView(
+              physics: const ScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              child: Wrap(
+                spacing: 10,
+                children: options.map((opt) {
+                  return ChoiceChip(
+                    label: Text(opt),
+                    selected: queryOptions[options.indexOf(opt)] ?? false,
+                    onSelected: queryOptions[options.indexOf(opt)] == null
+                        ? null
+                        : (bool selected) =>
+                            onSelected(selected, options.indexOf(opt)),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ),
@@ -163,36 +129,37 @@ class _CustomSearchDialogState extends State<CustomSearchDialog> {
     );
   }
 
-  Widget dropdownLine({
+  Widget dropdownLine<T>({
     required String name,
-    required String firstValue,
-    required List<String> options,
-    required bool hasSorting,
+    required T firstValue,
+    required List<T> options,
+    required ValueChanged<T?>? onChanged,
+    bool hasSorting = false,
+    bool? sort,
+    VoidCallback? onSortPressed,
   }) {
     return Row(
       children: [
         Text('$name:'),
         const SizedBox(width: 20),
-        DropdownButton<String>(
+        DropdownButton<T>(
           value: firstValue,
           icon: const Icon(Icons.arrow_drop_down),
           style: const TextStyle(color: Colors.black),
-          onChanged: (String? newValue) => setState(
-            () => dropdownValue[dropdownValue.indexOf(firstValue)] = newValue!,
-          ),
+          onChanged: onChanged,
           items: options
-              .map<DropdownMenuItem<String>>(
-                (String value) => DropdownMenuItem<String>(
+              .map<DropdownMenuItem<T>>(
+                (T value) => DropdownMenuItem<T>(
                   value: value,
-                  child: Text(value),
+                  child: Text(value is Enum ? value.name : value.toString()),
                 ),
               )
               .toList(),
         ),
         if (hasSorting)
           IconButton(
-            onPressed: () => setState(() => isDesc = !isDesc),
-            icon: Icon(isDesc ? Icons.arrow_downward : Icons.arrow_upward),
+            onPressed: onSortPressed,
+            icon: Icon(sort! ? Icons.arrow_downward : Icons.arrow_upward),
           ),
       ],
     );

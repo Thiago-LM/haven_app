@@ -14,6 +14,7 @@ class HomeState extends Equatable {
     this.status = HomeStatus.initial,
     this.wallpaperList = WallpaperList.empty,
     this.colorsData = const {},
+    this.wallQuery = const WallpaperQuery(),
   });
 
   factory HomeState.fromJson(Map<String, dynamic> json) => HomeState(
@@ -28,21 +29,29 @@ class HomeState extends Equatable {
         colorsData: json['colorsData'] == null
             ? {}
             : Map<String, int>.from(json['colorsData'] as Map<String, dynamic>),
+        wallQuery: json['wallQuery'] == null
+            ? const WallpaperQuery()
+            : WallpaperQuery.fromJson(
+                json['wallQuery'] as Map<String, dynamic>,
+              ),
       );
 
   final HomeStatus status;
   final WallpaperList wallpaperList;
   final Map<String, int> colorsData;
+  final WallpaperQuery wallQuery;
 
   HomeState copyWith({
     HomeStatus? status,
     WallpaperList? wallpaperList,
     Map<String, int>? colorsData,
+    WallpaperQuery? wallQuery,
   }) {
     return HomeState(
       status: status ?? this.status,
       wallpaperList: wallpaperList ?? this.wallpaperList,
       colorsData: colorsData ?? this.colorsData,
+      wallQuery: wallQuery ?? this.wallQuery,
     );
   }
 
@@ -50,8 +59,9 @@ class HomeState extends Equatable {
         'status': status.index,
         'wallpaperList': wallpaperList.toJson(),
         'colorsData': colorsData,
+        'wallQuery': wallQuery.toJson(),
       };
 
   @override
-  List<Object?> get props => [status, wallpaperList, colorsData];
+  List<Object?> get props => [status, wallpaperList, colorsData, wallQuery];
 }

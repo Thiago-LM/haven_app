@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 class HomeSearchBar extends StatefulWidget {
   const HomeSearchBar({
     required this.textController,
-    required this.onPressed,
+    required this.onFilterPressed,
+    required this.onSearchPressed,
     super.key,
   });
 
   final TextEditingController textController;
-  final VoidCallback onPressed;
+  final VoidCallback onFilterPressed;
+  final VoidCallback onSearchPressed;
 
   @override
   State<HomeSearchBar> createState() => _HomeSearchBarState();
@@ -51,9 +53,15 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
             ),
             const VerticalDivider(),
             IconButton(
+              icon: const Icon(Icons.filter_alt_outlined),
+              color: Colors.grey,
+              onPressed: widget.onFilterPressed,
+            ),
+            const VerticalDivider(),
+            IconButton(
               icon: const Icon(CupertinoIcons.search),
               color: Colors.grey,
-              onPressed: widget.onPressed,
+              onPressed: widget.onSearchPressed,
             ),
           ],
         ),

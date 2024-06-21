@@ -35,16 +35,6 @@ class WallpaperIdInfoNotFoundFailure implements Exception {
   String toString() => 'WallpaperIdInfoNotFoundFailure(message: $message)';
 }
 
-enum WallpaperSorting {
-  toplist,
-  latest,
-  hot,
-  random;
-
-  String get value =>
-      this == latest ? 'date_added' : toString().split('.').last;
-}
-
 /// {@template wallhaven_api_client}
 /// Dart API Client which wraps the [wallhaven](https://wallhaven.cc/).
 /// {@endtemplate}
@@ -58,17 +48,11 @@ class WallhavenApiClient {
   final http.Client _httpClient;
 
   /// Finds a [Wallpaper]. (Default: `/search?sorting=toplist`)
-  Future<WallpaperList> wallpaperSearch({
-    String? query,
-    int pageIndex = 1,
-    WallpaperSorting sorting = WallpaperSorting.toplist,
-  }) async {
+  Future<WallpaperList> wallpaperSearch({WallpaperQuery? wallQuery}) async {
     final request = Uri.https(
       _baseUrl,
       '/api/v1/search',
-      query == null
-          ? {'sorting': sorting.value, 'page': '$pageIndex'}
-          : {'q': query, 'page': '$pageIndex'},
+      wallQuery == null ? {'sorting': 'toplist'} : wallQuery.toJson(),
     );
 
     final response = await _httpClient.get(request);

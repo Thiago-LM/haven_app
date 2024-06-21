@@ -13,26 +13,20 @@ class HomeCubit extends HydratedCubit<HomeState> {
 
   final WallhavenRepository _wallhavenRepository;
 
-  Future<void> fetchWallpaper({
-    String? query,
-    int? pageIndex,
-    WallpaperSorting? sorting,
-  }) async {
+  Future<void> fetchWallpaper({WallpaperQuery? wallQuery}) async {
     if (state.status != HomeStatus.success) {
       emit(state.copyWith(status: HomeStatus.loading));
 
       try {
-        final wallpaperList = await _wallhavenRepository.getWallpaper(
-          query: query,
-          pageIndex: pageIndex ?? 1,
-          sorting: sorting ?? WallpaperSorting.toplist,
-        );
+        final wallpaperList =
+            await _wallhavenRepository.getWallpaper(wallQuery: wallQuery);
 
         emit(
           state.copyWith(
             status: HomeStatus.success,
             wallpaperList: wallpaperList,
             colorsData: getColorsData(wallpaperList.data),
+            wallQuery: wallQuery,
           ),
         );
       } catch (e) {
@@ -55,6 +49,9 @@ class HomeCubit extends HydratedCubit<HomeState> {
   }
 
   void updateStatus(HomeStatus status) => emit(state.copyWith(status: status));
+
+  void updateWallpaperQuery(WallpaperQuery wallQuery) =>
+      emit(state.copyWith(wallQuery: wallQuery));
 
   @override
   HomeState fromJson(Map<String, dynamic> json) => HomeState.fromJson(json);
