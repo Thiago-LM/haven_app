@@ -35,6 +35,8 @@ class WallView extends StatefulWidget {
 class _WallViewState extends State<WallView> {
   WallpaperCubit get cubit => context.read<WallpaperCubit>();
 
+  BoxFit fit = BoxFit.cover;
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +46,7 @@ class _WallViewState extends State<WallView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Stack(
         children: [
           CachedNetworkImage(
@@ -57,7 +60,7 @@ class _WallViewState extends State<WallView> {
             ),
             height: double.maxFinite,
             width: double.maxFinite,
-            fit: BoxFit.cover,
+            fit: fit,
           ),
           Positioned(
             top: 48,
@@ -69,6 +72,21 @@ class _WallViewState extends State<WallView> {
                 backgroundColor: WidgetStateProperty.all(Colors.white24),
               ),
               onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+          Positioned(
+            top: 48,
+            right: 16,
+            child: IconButton(
+              icon: const Icon(Icons.aspect_ratio_outlined),
+              color: Colors.white,
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all(Colors.white24),
+              ),
+              onPressed: () => setState(
+                () =>
+                    fit = fit == BoxFit.cover ? BoxFit.fitWidth : BoxFit.cover,
+              ),
             ),
           ),
           Positioned(
