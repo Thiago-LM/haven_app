@@ -66,8 +66,11 @@ class _HomeViewState extends State<HomeView> {
             ),
             onSearchPressed: () async {
               setState(
-                () => searchTitleModel =
-                    HomeSearchTitleModel.search(_textController.text),
+                () => searchTitleModel = HomeSearchTitleModel.search(
+                  _textController.text.isEmpty
+                      ? cubit.state.wallQuery.sorting.name
+                      : _textController.text,
+                ),
               );
               cubit.updateStatus(HomeStatus.loading);
               await cubit.fetchWallpaper(
@@ -78,7 +81,17 @@ class _HomeViewState extends State<HomeView> {
             },
           ),
           const SizedBox(height: 16),
-          HomeSearchTitle(model: searchTitleModel),
+          HomeSearchTitle(
+            model: searchTitleModel,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => WallpaperListPage(
+                  ctx: context,
+                  title: searchTitleModel.searchTitle,
+                ),
+              ),
+            ),
+          ),
           HomeWallpaperList(
             onRefresh: () async {
               cubit.updateStatus(HomeStatus.loading);

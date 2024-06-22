@@ -35,7 +35,29 @@ class HomeWallpaperList extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return Container(
                         width: mediaSize.width * 0.4,
-                        padding: const EdgeInsets.only(top: 8, right: 16),
+                        margin: const EdgeInsets.only(top: 8, right: 16),
+                        decoration: state.wallpaperList.data[index].purity
+                                .contains('sketchy')
+                            ? BoxDecoration(
+                                border: Border.all(
+                                  width: 3,
+                                  color: Colors.yellow,
+                                ),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(18)),
+                              )
+                            : state.wallpaperList.data[index].purity
+                                    .contains('nsfw')
+                                ? BoxDecoration(
+                                    border: Border.all(
+                                      width: 3,
+                                      color: Colors.red,
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(18),
+                                    ),
+                                  )
+                                : null,
                         child: ClipRRect(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(15)),

@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:haven_app/home/models/models.dart';
 
 class HomeSearchTitle extends StatelessWidget {
-  const HomeSearchTitle({required this.model, super.key});
+  const HomeSearchTitle({
+    required this.model,
+    required this.onPressed,
+    super.key,
+  });
 
   final HomeSearchTitleModel model;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +27,12 @@ class HomeSearchTitle extends StatelessWidget {
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
+        ),
+        Expanded(child: Container()),
+        TextButton.icon(
+          onPressed: onPressed,
+          icon: const Icon(Icons.more_horiz),
+          label: const Text('More'),
         ),
       ],
     );

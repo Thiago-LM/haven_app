@@ -46,9 +46,10 @@ class WallpaperQuery extends Equatable {
     this.query,
     this.category = const [true, true, false],
     this.purity = const [true, false, null],
-    this.sorting = WallpaperSorting.latest,
+    this.sorting = WallpaperSorting.toplist,
     this.order = WallpaperOrder.desc,
     this.topRange = WallpaperTopRange.month,
+    this.page,
   });
 
   factory WallpaperQuery.fromJson(Map<String, dynamic> json) => WallpaperQuery(
@@ -64,6 +65,7 @@ class WallpaperQuery extends Equatable {
         order: WallpaperOrder.values.firstWhere((e) => e.name == json['order']),
         topRange: WallpaperTopRange.values
             .firstWhere((e) => e.value == json['topRange']),
+        page: json['page'] as int?,
       );
 
   final String? query;
@@ -72,6 +74,7 @@ class WallpaperQuery extends Equatable {
   final WallpaperSorting sorting;
   final WallpaperOrder order;
   final WallpaperTopRange topRange;
+  final int? page;
 
   WallpaperQuery copyWith({
     String? query,
@@ -80,6 +83,7 @@ class WallpaperQuery extends Equatable {
     WallpaperSorting? sorting,
     WallpaperOrder? order,
     WallpaperTopRange? topRange,
+    int? page,
   }) =>
       WallpaperQuery(
         query: query ?? this.query,
@@ -88,15 +92,17 @@ class WallpaperQuery extends Equatable {
         sorting: sorting ?? this.sorting,
         order: order ?? this.order,
         topRange: topRange ?? this.topRange,
+        page: page ?? this.page,
       );
 
   Map<String, dynamic> toJson() => {
-        if (query != null) 'q': query,
+        if (query != null && query!.isNotEmpty) 'q': query,
         'categories': category.map((e) => e ? '1' : '0').join(),
         'purity': purity.map((e) => e != null && e ? '1' : '0').join(),
         'sorting': sorting.name,
         'order': order.name,
         if (sorting == WallpaperSorting.toplist) 'topRange': topRange.value,
+        if (page != null) 'page': page.toString(),
       };
 
   @override
@@ -107,5 +113,6 @@ class WallpaperQuery extends Equatable {
         sorting,
         order,
         topRange,
+        page,
       ];
 }
