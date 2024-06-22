@@ -58,9 +58,17 @@ samples, guidance on mobile development, and a full API reference.
 
 ### Linux
 
-|                   Home Page                    |                   Wall Page                    |                       Wall Page - Info                       |                   Save Page                    |
-| ---------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------- |
-|![Home Page](screenshots/linux_Screenshot_1.png)|![Wall Page](screenshots/linux_Screenshot_2.png)|![Wall Page - Info Dialog](screenshots/linux_Screenshot_3.png)|![Save Page](screenshots/linux_Screenshot_4.png)|
+|                   Home Page                    |                   Home Page - Filter                    |                   Home Page - Pagination                    |
+| ---------------------------------------------- | ------------------------------------------------------- | ----------------------------------------------------------- |
+|![Home Page](screenshots/linux_Screenshot_1.png)|![Home Page - Filter](screenshots/linux_Screenshot_2.png)|![Home Page - Pagination](screenshots/linux_Screenshot_3.png)|
+
+|                   Wall Page                    |                       Wall Page - Info                       |                       Wall Page - Share                       |
+| ---------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------- |
+|![Wall Page](screenshots/linux_Screenshot_4.png)|![Wall Page - Info Dialog](screenshots/linux_Screenshot_5.png)|![Wall Page - Share Dialog](screenshots/linux_Screenshot_6.png)|
+
+|                   Save Page                    |
+| ---------------------------------------------- |
+|![Save Page](screenshots/linux_Screenshot_7.png)|
 
 ### Windows
 

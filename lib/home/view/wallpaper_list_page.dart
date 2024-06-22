@@ -9,10 +9,14 @@ import 'package:haven_app/shared/models/models.dart';
 import 'package:haven_app/wallpaper/wallpaper.dart';
 
 class WallpaperListPage extends StatelessWidget {
-  const WallpaperListPage({required this.title, required this.ctx, super.key});
+  const WallpaperListPage({
+    required this.titleModel,
+    required this.ctx,
+    super.key,
+  });
 
   final BuildContext ctx;
-  final String title;
+  final HomeSearchTitleModel titleModel;
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +112,22 @@ class WallpaperListPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            Row(
+              children: [
+                Icon(
+                  titleModel.icon,
+                  color: titleModel.iconColor,
+                  size: 36,
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  titleModel.searchTitle,
+                  style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
             Text(
               length > 0

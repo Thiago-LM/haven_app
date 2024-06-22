@@ -21,6 +21,15 @@ class SavePage extends StatelessWidget {
         final docDir = await getApplicationDocumentsDirectory();
         final listDirString = docDir.path.split(r'\');
         dir = Directory('C:/Users/${listDirString[2]}/Pictures/wallhaven/');
+      case 'linux':
+        final docDir = await getApplicationDocumentsDirectory();
+        dir = Directory(
+          docDir.path.replaceRange(
+            docDir.path.lastIndexOf('/'),
+            null,
+            '/Pictures/wallhaven/',
+          ),
+        );
       default:
         dir = Directory('');
     }

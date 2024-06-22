@@ -87,7 +87,7 @@ class _HomeViewState extends State<HomeView> {
               MaterialPageRoute<void>(
                 builder: (_) => WallpaperListPage(
                   ctx: context,
-                  title: searchTitleModel.searchTitle,
+                  titleModel: searchTitleModel,
                 ),
               ),
             ),
@@ -109,9 +109,7 @@ class _HomeViewState extends State<HomeView> {
               );
               cubit.updateStatus(HomeStatus.loading);
               await cubit.fetchWallpaper(
-                wallQuery: const WallpaperQuery(
-                  sorting: WallpaperSorting.toplist,
-                ),
+                wallQuery: const WallpaperQuery(),
               );
             },
             latestOnPressed: () async {
@@ -120,7 +118,11 @@ class _HomeViewState extends State<HomeView> {
                 () => searchTitleModel = const HomeSearchTitleModel.latest(),
               );
               cubit.updateStatus(HomeStatus.loading);
-              await cubit.fetchWallpaper(wallQuery: const WallpaperQuery());
+              await cubit.fetchWallpaper(
+                wallQuery: const WallpaperQuery(
+                  sorting: WallpaperSorting.latest,
+                ),
+              );
             },
             hotOnPressed: () async {
               _textController.clear();

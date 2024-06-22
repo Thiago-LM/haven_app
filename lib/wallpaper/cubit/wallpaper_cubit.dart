@@ -25,7 +25,8 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
       return Stream.error('Please use the Share button!');
     } else if (!Platform.isAndroid &&
         !Platform.isMacOS &&
-        !Platform.isWindows) {
+        !Platform.isWindows &&
+        !Platform.isLinux) {
       return Stream.error('Operating system not supported!');
     }
 
@@ -53,6 +54,15 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
               final listDirString = docDir.path.split(r'\');
               dir =
                   Directory('C:/Users/${listDirString[2]}/Pictures/wallhaven/');
+            case 'linux':
+              final docDir = await getApplicationDocumentsDirectory();
+              dir = Directory(
+                docDir.path.replaceRange(
+                  docDir.path.lastIndexOf('/'),
+                  null,
+                  '/Pictures/wallhaven/',
+                ),
+              );
           }
 
           if (!dir.existsSync()) {
@@ -96,7 +106,7 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
     required bool isFile,
   }) async {
     try {
-      if (isFile) {
+      if (isFile && !Platform.isLinux) {
         final dir = await getTemporaryDirectory();
 
         final file =
