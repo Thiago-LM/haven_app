@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:haven_app/navigation_bar/navigation_bar.dart';
+import 'package:haven_app/app/view/navigation_bar_page.dart';
 import 'package:haven_app/wallhaven/wallhaven.dart';
 
 class HavenApp extends StatelessWidget {

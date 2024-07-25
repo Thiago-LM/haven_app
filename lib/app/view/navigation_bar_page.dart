@@ -1,15 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:haven_app/home/view/home_page.dart';
-import 'package:haven_app/storage/save_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:haven_app/app/app.dart';
+import 'package:haven_app/wallhaven/wallhaven.dart';
 
 class NavigationBarPage extends StatelessWidget {
   const NavigationBarPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const NavigationBarView();
+    return BlocProvider(
+      create: (_) => WallpaperCubit(_.read<WallhavenRepository>()),
+      child: const NavigationBarView(),
+    );
   }
 }
 
@@ -77,7 +82,7 @@ class _NavigationBarViewState extends State<NavigationBarView> {
           child: <Widget>[
             const SingleChildScrollView(child: HomePage()),
             const SavePage(),
-            const Center(child: Text('User')),
+            const UserPage(),
           ][currentPageIndex],
         ),
       ),

@@ -50,6 +50,7 @@ class WallpaperQuery extends Equatable {
     this.order = WallpaperOrder.desc,
     this.topRange = WallpaperTopRange.month,
     this.page,
+    this.apikey,
   });
 
   factory WallpaperQuery.fromJson(Map<String, dynamic> json) => WallpaperQuery(
@@ -66,15 +67,17 @@ class WallpaperQuery extends Equatable {
         topRange: WallpaperTopRange.values
             .firstWhere((e) => e.value == json['topRange']),
         page: json['page'] as int?,
+        apikey: json['apikey'] as String?,
       );
 
   final String? query;
-  final List<bool> category;
-  final List<bool?> purity;
-  final WallpaperSorting sorting;
-  final WallpaperOrder order;
-  final WallpaperTopRange topRange;
+  final List<bool>? category;
+  final List<bool?>? purity;
+  final WallpaperSorting? sorting;
+  final WallpaperOrder? order;
+  final WallpaperTopRange? topRange;
   final int? page;
+  final String? apikey;
 
   WallpaperQuery copyWith({
     String? query,
@@ -84,6 +87,7 @@ class WallpaperQuery extends Equatable {
     WallpaperOrder? order,
     WallpaperTopRange? topRange,
     int? page,
+    String? apikey,
   }) =>
       WallpaperQuery(
         query: query ?? this.query,
@@ -93,16 +97,21 @@ class WallpaperQuery extends Equatable {
         order: order ?? this.order,
         topRange: topRange ?? this.topRange,
         page: page ?? this.page,
+        apikey: apikey ?? this.apikey,
       );
 
   Map<String, dynamic> toJson() => {
         if (query != null && query!.isNotEmpty) 'q': query,
-        'categories': category.map((e) => e ? '1' : '0').join(),
-        'purity': purity.map((e) => e != null && e ? '1' : '0').join(),
-        'sorting': sorting.name,
-        'order': order.name,
-        if (sorting == WallpaperSorting.toplist) 'topRange': topRange.value,
+        if (category != null && category!.length == 3)
+          'categories': category!.map((e) => e ? '1' : '0').join(),
+        if (purity != null && purity!.length == 3)
+          'purity': purity!.map((e) => e != null && e ? '1' : '0').join(),
+        if (sorting != null) 'sorting': sorting!.name,
+        if (order != null) 'order': order!.name,
+        if (topRange != null && sorting == WallpaperSorting.toplist)
+          'topRange': topRange!.value,
         if (page != null) 'page': page.toString(),
+        if (apikey != null && apikey!.isNotEmpty) 'apikey': apikey,
       };
 
   @override
@@ -114,5 +123,6 @@ class WallpaperQuery extends Equatable {
         order,
         topRange,
         page,
+        apikey,
       ];
 }

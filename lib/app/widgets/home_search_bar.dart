@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomeSearchBar extends StatefulWidget {
+class HomeSearchBar extends StatelessWidget {
   const HomeSearchBar({
     required this.textController,
     required this.onFilterPressed,
@@ -13,11 +13,6 @@ class HomeSearchBar extends StatefulWidget {
   final VoidCallback onFilterPressed;
   final VoidCallback onSearchPressed;
 
-  @override
-  State<HomeSearchBar> createState() => _HomeSearchBarState();
-}
-
-class _HomeSearchBarState extends State<HomeSearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,18 +28,18 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
           children: [
             Expanded(
               child: TextField(
-                controller: widget.textController,
+                controller: textController,
                 decoration: InputDecoration(
                   hintText: 'Search...',
                   hintStyle: const TextStyle(color: Colors.grey),
-                  suffixIcon: widget.textController.text.isEmpty
+                  suffixIcon: textController.text.isEmpty
                       ? null
                       : IconButton(
                           icon: const Icon(
                             Icons.close,
                             color: Colors.grey,
                           ),
-                          onPressed: widget.textController.clear,
+                          onPressed: textController.clear,
                         ),
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -55,13 +50,13 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
             IconButton(
               icon: const Icon(Icons.filter_alt_outlined),
               color: Colors.grey,
-              onPressed: widget.onFilterPressed,
+              onPressed: onFilterPressed,
             ),
             const VerticalDivider(),
             IconButton(
               icon: const Icon(CupertinoIcons.search),
               color: Colors.grey,
-              onPressed: widget.onSearchPressed,
+              onPressed: onSearchPressed,
             ),
           ],
         ),

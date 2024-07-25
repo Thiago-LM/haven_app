@@ -19,4 +19,10 @@ class WallhavenRepository {
     final wallpaper = await _wallhavenApiClient.wallpaperInfo(id: id);
     return wallpaper;
   }
+
+  Future<UserSettings> apikeyValidation({required String apikey}) async {
+    final userSettings =
+        await _wallhavenApiClient.apikeyValidation(apikey: apikey);
+    return userSettings;
+  }
 }

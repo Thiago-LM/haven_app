@@ -2,44 +2,27 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:haven_app/home/home.dart';
+import 'package:haven_app/app/app.dart';
 import 'package:haven_app/shared/models/models.dart';
-import 'package:haven_app/wallhaven/wallhaven.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeCubit(context.read<WallhavenRepository>()),
-      child: const HomeView(),
-    );
-  }
+  State<HomePage> createState() => _HomePageState();
 }
 
-class HomeView extends StatefulWidget {
-  const HomeView({super.key});
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  HomeCubit get cubit => context.read<HomeCubit>();
+class _HomePageState extends State<HomePage> {
+  WallpaperCubit get cubit => context.read<WallpaperCubit>();
 
   final _textController = TextEditingController();
 
-  HomeSearchTitleModel searchTitleModel = const HomeSearchTitleModel(
-    icon: Icons.diamond_outlined,
-    iconColor: Colors.purple,
-    searchTitle: 'Best of the month',
-  );
+  HomeSearchTitleModel searchTitleModel = const HomeSearchTitleModel.toplist();
 
   @override
   void initState() {
     cubit.fetchWallpaper();
-    _textController.addListener(() => setState(() {}));
+    searchTitleModel = cubit.state.homeSearchTitleModel;
     super.initState();
   }
 
@@ -66,16 +49,27 @@ class _HomeViewState extends State<HomeView> {
             ),
             onSearchPressed: () async {
               setState(
-                () => searchTitleModel = HomeSearchTitleModel.search(
-                  _textController.text.isEmpty
-                      ? cubit.state.wallQuery.sorting.name
-                      : _textController.text,
-                ),
+                () => searchTitleModel = _textController.text.isEmpty
+                    ? cubit.state.wallQuery.sorting == WallpaperSorting.toplist
+                        ? const HomeSearchTitleModel.toplist()
+                        : cubit.state.wallQuery.sorting == WallpaperSorting.hot
+                            ? const HomeSearchTitleModel.hot()
+                            : cubit.state.wallQuery.sorting ==
+                                    WallpaperSorting.latest
+                                ? const HomeSearchTitleModel.latest()
+                                : cubit.state.wallQuery.sorting ==
+                                        WallpaperSorting.random
+                                    ? const HomeSearchTitleModel.random()
+                                    : HomeSearchTitleModel.search(
+                                        cubit.state.wallQuery.sorting!.name,
+                                      )
+                    : HomeSearchTitleModel.search(_textController.text),
               );
               cubit.updateStatus(HomeStatus.loading);
               await cubit.fetchWallpaper(
                 wallQuery: cubit.state.wallQuery.copyWith(
                   query: _textController.text,
+                  page: 1,
                 ),
               );
             },
@@ -107,9 +101,19 @@ class _HomeViewState extends State<HomeView> {
               setState(
                 () => searchTitleModel = const HomeSearchTitleModel.toplist(),
               );
-              cubit.updateStatus(HomeStatus.loading);
+              cubit
+                ..updateStatus(HomeStatus.loading)
+                ..updateHomeSearchTitleModel(
+                  const HomeSearchTitleModel.toplist(),
+                );
               await cubit.fetchWallpaper(
-                wallQuery: const WallpaperQuery(),
+                wallQuery: WallpaperQuery(
+                  category: null,
+                  purity: null,
+                  order: null,
+                  topRange: null,
+                  apikey: cubit.state.wallQuery.apikey,
+                ),
               );
             },
             latestOnPressed: () async {
@@ -117,10 +121,18 @@ class _HomeViewState extends State<HomeView> {
               setState(
                 () => searchTitleModel = const HomeSearchTitleModel.latest(),
               );
-              cubit.updateStatus(HomeStatus.loading);
+              cubit
+                ..updateStatus(HomeStatus.loading)
+                ..updateHomeSearchTitleModel(
+                  const HomeSearchTitleModel.latest(),
+                );
               await cubit.fetchWallpaper(
-                wallQuery: const WallpaperQuery(
+                wallQuery: WallpaperQuery(
+                  category: null,
+                  purity: null,
                   sorting: WallpaperSorting.latest,
+                  order: null,
+                  apikey: cubit.state.wallQuery.apikey,
                 ),
               );
             },
@@ -129,10 +141,18 @@ class _HomeViewState extends State<HomeView> {
               setState(
                 () => searchTitleModel = const HomeSearchTitleModel.hot(),
               );
-              cubit.updateStatus(HomeStatus.loading);
+              cubit
+                ..updateStatus(HomeStatus.loading)
+                ..updateHomeSearchTitleModel(
+                  const HomeSearchTitleModel.hot(),
+                );
               await cubit.fetchWallpaper(
-                wallQuery: const WallpaperQuery(
+                wallQuery: WallpaperQuery(
+                  category: null,
+                  purity: null,
                   sorting: WallpaperSorting.hot,
+                  order: null,
+                  apikey: cubit.state.wallQuery.apikey,
                 ),
               );
             },
@@ -141,10 +161,18 @@ class _HomeViewState extends State<HomeView> {
               setState(
                 () => searchTitleModel = const HomeSearchTitleModel.random(),
               );
-              cubit.updateStatus(HomeStatus.loading);
+              cubit
+                ..updateStatus(HomeStatus.loading)
+                ..updateHomeSearchTitleModel(
+                  const HomeSearchTitleModel.random(),
+                );
               await cubit.fetchWallpaper(
-                wallQuery: const WallpaperQuery(
+                wallQuery: WallpaperQuery(
+                  category: null,
+                  purity: null,
                   sorting: WallpaperSorting.random,
+                  order: null,
+                  apikey: cubit.state.wallQuery.apikey,
                 ),
               );
             },

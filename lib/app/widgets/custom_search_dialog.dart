@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:haven_app/home/cubit/home_cubit.dart';
+import 'package:haven_app/app/cubit/wallpaper_cubit.dart';
 import 'package:haven_app/shared/models/models.dart';
 
 class CustomSearchDialog extends StatelessWidget {
@@ -13,11 +13,11 @@ class CustomSearchDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
-    final cubit = ctx.read<HomeCubit>();
+    final cubit = ctx.read<WallpaperCubit>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-      child: BlocBuilder<HomeCubit, HomeState>(
+      child: BlocBuilder<WallpaperCubit, WallpaperState>(
         bloc: cubit,
         builder: (context, state) {
           return Column(
@@ -26,9 +26,10 @@ class CustomSearchDialog extends StatelessWidget {
               multipleChoiceLine(
                 name: 'categories',
                 options: ['general', 'anime', 'people'],
-                queryOptions: state.wallQuery.category,
+                queryOptions: state.wallQuery.category ?? [true, true, false],
                 onSelected: (value, index) {
-                  final temp = state.wallQuery.category.toList();
+                  final temp =
+                      state.wallQuery.category?.toList() ?? [true, true, false];
                   temp[index] = value;
                   cubit.updateWallpaperQuery(
                     cubit.state.wallQuery.copyWith(category: temp),
@@ -38,9 +39,17 @@ class CustomSearchDialog extends StatelessWidget {
               multipleChoiceLine(
                 name: 'purity',
                 options: ['sfw', 'sketchy', 'nsfw'],
-                queryOptions: state.wallQuery.purity,
+                queryOptions: state.wallQuery.purity ??
+                    (state.wallQuery.apikey != null &&
+                            state.wallQuery.apikey!.isNotEmpty
+                        ? [true, false, false]
+                        : [true, false, null]),
                 onSelected: (value, index) {
-                  final temp = state.wallQuery.purity.toList();
+                  final temp = state.wallQuery.purity?.toList() ??
+                      (state.wallQuery.apikey != null &&
+                              state.wallQuery.apikey!.isNotEmpty
+                          ? [true, false, false]
+                          : [true, false, null]);
                   temp[index] = temp[index] == null ? null : value;
                   cubit.updateWallpaperQuery(
                     cubit.state.wallQuery.copyWith(purity: temp),
@@ -49,7 +58,7 @@ class CustomSearchDialog extends StatelessWidget {
               ),
               dropdownLine<WallpaperSorting>(
                 name: 'sorting',
-                firstValue: state.wallQuery.sorting,
+                firstValue: state.wallQuery.sorting ?? WallpaperSorting.toplist,
                 options: WallpaperSorting.values,
                 onChanged: (value) => cubit.updateWallpaperQuery(
                   cubit.state.wallQuery.copyWith(sorting: value),
@@ -67,7 +76,8 @@ class CustomSearchDialog extends StatelessWidget {
               if (state.wallQuery.sorting == WallpaperSorting.toplist)
                 dropdownLine<WallpaperTopRange>(
                   name: 'topRange',
-                  firstValue: state.wallQuery.topRange,
+                  firstValue:
+                      state.wallQuery.topRange ?? WallpaperTopRange.month,
                   options: WallpaperTopRange.values,
                   onChanged: (value) => cubit.updateWallpaperQuery(
                     cubit.state.wallQuery.copyWith(topRange: value),

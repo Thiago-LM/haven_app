@@ -13,10 +13,11 @@ import 'package:share_plus/share_plus.dart';
 import 'package:haven_app/shared/shared.dart';
 import 'package:haven_app/wallhaven/wallhaven.dart';
 
-part 'wallpaper_state.dart';
+part 'wallpaper_details_state.dart';
 
-class WallpaperCubit extends HydratedCubit<WallpaperState> {
-  WallpaperCubit(this._wallhavenRepository) : super(const WallpaperState());
+class WallpaperDetailsCubit extends HydratedCubit<WallpaperDetailsState> {
+  WallpaperDetailsCubit(this._wallhavenRepository)
+      : super(const WallpaperDetailsState());
 
   final WallhavenRepository _wallhavenRepository;
 
@@ -123,7 +124,7 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
         }
       }
     } on Exception catch (e) {
-      log('e = $e', name: 'WallpaperCubit');
+      log('e = $e', name: 'WallpaperDetailsCubit');
     }
   }
 
@@ -132,14 +133,14 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
       final wallpaper = await _wallhavenRepository.getWallpaperInfo(id: id);
       emit(state.copyWith(wallpaper: wallpaper));
     } on Exception catch (e) {
-      log('e = $e', name: 'WallpaperCubit');
+      log('e = $e', name: 'WallpaperDetailsCubit');
     }
   }
 
   @override
-  WallpaperState fromJson(Map<String, dynamic> json) =>
-      WallpaperState.fromJson(json);
+  WallpaperDetailsState fromJson(Map<String, dynamic> json) =>
+      WallpaperDetailsState.fromJson(json);
 
   @override
-  Map<String, dynamic> toJson(WallpaperState state) => state.toJson();
+  Map<String, dynamic> toJson(WallpaperDetailsState state) => state.toJson();
 }

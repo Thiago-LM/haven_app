@@ -2,12 +2,23 @@ import 'package:flutter/material.dart';
 
 import 'package:equatable/equatable.dart';
 
+import 'package:haven_app/shared/utils/color_extension.dart';
+import 'package:haven_app/shared/utils/icondata_extension.dart';
+
 class HomeSearchTitleModel extends Equatable {
   const HomeSearchTitleModel({
     required this.icon,
     required this.iconColor,
     required this.searchTitle,
   });
+
+  factory HomeSearchTitleModel.fromJson(Map<String, dynamic> json) =>
+      HomeSearchTitleModel(
+        icon: (json['icon'] as IconData)
+            .fromJson(json['icon'] as Map<String, dynamic>),
+        iconColor: Color(int.parse(json['iconColor'] as String)),
+        searchTitle: json['searchTitle'] as String,
+      );
 
   const HomeSearchTitleModel.toplist()
       : icon = Icons.diamond_outlined,
@@ -37,6 +48,12 @@ class HomeSearchTitleModel extends Equatable {
   final IconData icon;
   final Color iconColor;
   final String searchTitle;
+
+  Map<String, dynamic> toJson() => {
+        'icon': icon.toJson(),
+        'iconColor': iconColor.toHex(),
+        'searchTitle': searchTitle,
+      };
 
   @override
   List<Object?> get props => [

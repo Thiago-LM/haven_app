@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:haven_app/home/home.dart';
+import 'package:haven_app/app/app.dart';
 import 'package:haven_app/shared/utils/utils.dart';
 
 class HomeColorsToneList extends StatelessWidget {
@@ -22,9 +22,9 @@ class HomeColorsToneList extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        BlocBuilder<HomeCubit, HomeState>(
+        BlocBuilder<WallpaperCubit, WallpaperState>(
           builder: (context, state) {
-            switch (state.status) {
+            switch (state.homeStatus) {
               case HomeStatus.initial:
               case HomeStatus.loading:
                 return const Center(
@@ -33,34 +33,32 @@ class HomeColorsToneList extends StatelessWidget {
               case HomeStatus.success:
                 return SizedBox(
                   height: 50,
-                  child: Expanded(
-                    child: ListView.builder(
-                      itemCount: state.colorsData.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () => Clipboard.setData(
-                            ClipboardData(
-                              text: state.colorsData.keys.elementAt(index),
-                            ),
+                  child: ListView.builder(
+                    itemCount: state.colorsData.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () => Clipboard.setData(
+                          ClipboardData(
+                            text: state.colorsData.keys.elementAt(index),
                           ),
-                          child: Container(
-                            width: 50,
-                            margin: const EdgeInsets.only(right: 16),
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(15),
-                              ),
-                              child: Container(
-                                color: HexColor.fromHex(
-                                  state.colorsData.keys.elementAt(index),
-                                ),
+                        ),
+                        child: Container(
+                          width: 50,
+                          margin: const EdgeInsets.only(right: 16),
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(15),
+                            ),
+                            child: Container(
+                              color: HexColor.fromHex(
+                                state.colorsData.keys.elementAt(index),
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
                 );
               case HomeStatus.failure:

@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:haven_app/app/app.dart';
 import 'package:haven_app/wallhaven/repository/wallhaven_repository.dart';
-import 'package:haven_app/wallpaper/wallpaper.dart';
 
-class WallPage extends StatelessWidget {
-  const WallPage({required this.id, required this.url, super.key});
+class WallpaperDetailsPage extends StatelessWidget {
+  const WallpaperDetailsPage({required this.id, required this.url, super.key});
 
   final String id;
   final String url;
@@ -16,24 +16,25 @@ class WallPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => WallpaperCubit(context.read<WallhavenRepository>()),
-      child: WallView(id: id, url: url),
+      create: (context) =>
+          WallpaperDetailsCubit(context.read<WallhavenRepository>()),
+      child: WallpaperDetailsView(id: id, url: url),
     );
   }
 }
 
-class WallView extends StatefulWidget {
-  const WallView({required this.id, required this.url, super.key});
+class WallpaperDetailsView extends StatefulWidget {
+  const WallpaperDetailsView({required this.id, required this.url, super.key});
 
   final String id;
   final String url;
 
   @override
-  State<WallView> createState() => _WallViewState();
+  State<WallpaperDetailsView> createState() => _WallpaperDetailsViewState();
 }
 
-class _WallViewState extends State<WallView> {
-  WallpaperCubit get cubit => context.read<WallpaperCubit>();
+class _WallpaperDetailsViewState extends State<WallpaperDetailsView> {
+  WallpaperDetailsCubit get cubit => context.read<WallpaperDetailsCubit>();
 
   BoxFit fit = BoxFit.cover;
 
@@ -96,7 +97,7 @@ class _WallViewState extends State<WallView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                BlocBuilder<WallpaperCubit, WallpaperState>(
+                BlocBuilder<WallpaperDetailsCubit, WallpaperDetailsState>(
                   builder: (context, state) {
                     return RoundedSquareButton(
                       name: 'Info',

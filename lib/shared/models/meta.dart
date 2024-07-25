@@ -14,7 +14,7 @@ class Meta extends Equatable {
         currentPage:
             json['current_page'] == null ? 0 : json['current_page'] as int,
         lastPage: json['last_page'] == null ? 0 : json['last_page'] as int,
-        perPage: json['per_page'] == null ? 0 : json['per_page'] as int,
+        perPage: int.tryParse(json['per_page'].toString()) ?? 0,
         total: json['total'] == null ? 0 : json['total'] as int,
         query: json['query'] as String?,
         seed: json['seed'],

@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:haven_app/home/home.dart';
+import 'package:haven_app/app/app.dart';
 import 'package:haven_app/shared/models/models.dart';
-import 'package:haven_app/wallpaper/wallpaper.dart';
 
 class WallpaperListPage extends StatelessWidget {
   const WallpaperListPage({
@@ -21,7 +20,7 @@ class WallpaperListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaSize = MediaQuery.of(context).size;
-    final cubit = ctx.read<HomeCubit>();
+    final cubit = ctx.read<WallpaperCubit>();
 
     return Scaffold(
       body: Container(
@@ -38,7 +37,7 @@ class WallpaperListPage extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: BlocBuilder<HomeCubit, HomeState>(
+          child: BlocBuilder<WallpaperCubit, WallpaperState>(
             bloc: cubit,
             builder: (context, state) {
               return Column(
@@ -71,7 +70,7 @@ class WallpaperListPage extends StatelessWidget {
                       );
                     },
                   ),
-                  switch (state.status) {
+                  switch (state.homeStatus) {
                     HomeStatus.initial => const Expanded(
                         child: Center(
                           child: CircularProgressIndicator.adaptive(),
@@ -213,8 +212,10 @@ class WallpaperListPage extends StatelessWidget {
                     ),
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute<void>(
-                        builder: (_) =>
-                            WallPage(id: data[index].id, url: data[index].path),
+                        builder: (_) => WallpaperDetailsPage(
+                          id: data[index].id,
+                          url: data[index].path,
+                        ),
                       ),
                     ),
                   ),
