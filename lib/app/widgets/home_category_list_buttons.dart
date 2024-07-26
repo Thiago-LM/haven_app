@@ -34,6 +34,7 @@ class HomeCategoryListButtons extends StatelessWidget {
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,
           childAspectRatio: 2,
+          padding: EdgeInsets.zero,
           children: [
             customButton(
               onPressed: toplistOnPressed,

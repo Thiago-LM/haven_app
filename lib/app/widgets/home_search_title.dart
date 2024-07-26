@@ -33,6 +33,10 @@ class HomeSearchTitle extends StatelessWidget {
           onPressed: onPressed,
           icon: const Icon(Icons.more_horiz),
           label: const Text('More'),
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: const Color(0xFF0000EE),
+          ),
         ),
       ],
     );

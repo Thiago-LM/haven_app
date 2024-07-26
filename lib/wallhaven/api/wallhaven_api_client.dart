@@ -88,8 +88,15 @@ class WallhavenApiClient {
   }
 
   /// Get [Wallpaper] info by id.
-  Future<WallpaperInfo> wallpaperInfo({required String id}) async {
-    final request = Uri.https(_baseUrl, '/api/v1/w/$id');
+  Future<WallpaperInfo> wallpaperInfo({
+    required String id,
+    String? apikey,
+  }) async {
+    final request = Uri.https(
+      _baseUrl,
+      '/api/v1/w/$id',
+      apikey != null ? {'apikey': apikey} : null,
+    );
 
     final response = await _httpClient.get(request);
 

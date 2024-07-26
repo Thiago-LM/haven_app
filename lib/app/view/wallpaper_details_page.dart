@@ -5,36 +5,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:haven_app/app/app.dart';
-import 'package:haven_app/wallhaven/repository/wallhaven_repository.dart';
 
-class WallpaperDetailsPage extends StatelessWidget {
+class WallpaperDetailsPage extends StatefulWidget {
   const WallpaperDetailsPage({required this.id, required this.url, super.key});
 
   final String id;
   final String url;
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          WallpaperDetailsCubit(context.read<WallhavenRepository>()),
-      child: WallpaperDetailsView(id: id, url: url),
-    );
-  }
+  State<WallpaperDetailsPage> createState() => _WallpaperDetailsPageState();
 }
 
-class WallpaperDetailsView extends StatefulWidget {
-  const WallpaperDetailsView({required this.id, required this.url, super.key});
-
-  final String id;
-  final String url;
-
-  @override
-  State<WallpaperDetailsView> createState() => _WallpaperDetailsViewState();
-}
-
-class _WallpaperDetailsViewState extends State<WallpaperDetailsView> {
-  WallpaperDetailsCubit get cubit => context.read<WallpaperDetailsCubit>();
+class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
+  WallpaperCubit get cubit => context.read<WallpaperCubit>();
 
   BoxFit fit = BoxFit.cover;
 
@@ -97,7 +80,7 @@ class _WallpaperDetailsViewState extends State<WallpaperDetailsView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                BlocBuilder<WallpaperDetailsCubit, WallpaperDetailsState>(
+                BlocBuilder<WallpaperCubit, WallpaperState>(
                   builder: (context, state) {
                     return RoundedSquareButton(
                       name: 'Info',
@@ -105,7 +88,7 @@ class _WallpaperDetailsViewState extends State<WallpaperDetailsView> {
                       action: () => showCupertinoModalPopup<void>(
                         context: context,
                         builder: (BuildContext context) =>
-                            InfoDialog(wallpaper: state.wallpaper!.data),
+                            InfoDialog(wallpaper: state.wallpaperInfo!.data),
                       ),
                     );
                   },

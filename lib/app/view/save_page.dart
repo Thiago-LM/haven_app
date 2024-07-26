@@ -52,7 +52,7 @@ class SavePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                padding: EdgeInsets.only(left: 16, top: 64),
                 child: Text(
                   'Saved',
                   style: TextStyle(
@@ -63,7 +63,7 @@ class SavePage extends StatelessWidget {
               ),
               if (snapshot.hasData && snapshot.data!.isNotEmpty) ...[
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.only(left: 16, top: 8),
                   child: Text(
                     snapshot.data!.length > 1
                         ? '${snapshot.data!.length} wallpapers that you saved'
@@ -105,7 +105,7 @@ class SavePage extends StatelessWidget {
                 ),
               ] else ...[
                 const Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.only(left: 16, top: 8),
                   child: Text(
                     "Can't find any saved wallpaper",
                     style: TextStyle(

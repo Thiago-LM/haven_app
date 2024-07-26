@@ -18,6 +18,7 @@ class RoundedSquareButton extends StatelessWidget {
       children: [
         ElevatedButton(
           style: TextButton.styleFrom(
+            padding: EdgeInsets.zero,
             backgroundColor: Colors.white24,
             elevation: 0,
             fixedSize: Size(

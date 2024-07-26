@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomeSearchBar extends StatelessWidget {
+class HomeSearchBar extends StatefulWidget {
   const HomeSearchBar({
     required this.textController,
     required this.onFilterPressed,
@@ -12,6 +12,13 @@ class HomeSearchBar extends StatelessWidget {
   final TextEditingController textController;
   final VoidCallback onFilterPressed;
   final VoidCallback onSearchPressed;
+
+  @override
+  State<HomeSearchBar> createState() => _HomeSearchBarState();
+}
+
+class _HomeSearchBarState extends State<HomeSearchBar> {
+  bool showClearButton = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,35 +35,40 @@ class HomeSearchBar extends StatelessWidget {
           children: [
             Expanded(
               child: TextField(
-                controller: textController,
+                controller: widget.textController,
                 decoration: InputDecoration(
                   hintText: 'Search...',
                   hintStyle: const TextStyle(color: Colors.grey),
-                  suffixIcon: textController.text.isEmpty
+                  suffixIcon: widget.textController.text.isEmpty
                       ? null
                       : IconButton(
                           icon: const Icon(
                             Icons.close,
                             color: Colors.grey,
                           ),
-                          onPressed: textController.clear,
+                          onPressed: () {
+                            widget.textController.clear();
+                            setState(() => showClearButton = false);
+                          },
                         ),
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
                 ),
+                onChanged: (text) =>
+                    setState(() => showClearButton = text.isNotEmpty),
               ),
             ),
             const VerticalDivider(),
             IconButton(
               icon: const Icon(Icons.filter_alt_outlined),
               color: Colors.grey,
-              onPressed: onFilterPressed,
+              onPressed: widget.onFilterPressed,
             ),
             const VerticalDivider(),
             IconButton(
               icon: const Icon(CupertinoIcons.search),
               color: Colors.grey,
-              onPressed: onSearchPressed,
+              onPressed: widget.onSearchPressed,
             ),
           ],
         ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:haven_app/app/view/navigation_bar_page.dart';
+import 'package:haven_app/app/app.dart';
 import 'package:haven_app/wallhaven/wallhaven.dart';
 
 class HavenApp extends StatelessWidget {
@@ -14,7 +14,10 @@ class HavenApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: wallhavenRepository,
-      child: const HavenAppView(),
+      child: BlocProvider(
+        create: (_) => WallpaperCubit(wallhavenRepository),
+        child: const HavenAppView(),
+      ),
     );
   }
 }

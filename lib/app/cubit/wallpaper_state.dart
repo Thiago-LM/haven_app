@@ -19,6 +19,7 @@ class WallpaperState extends Equatable {
     this.colorsData = const {},
     this.wallQuery = const WallpaperQuery(),
     this.homeSearchTitleModel = const HomeSearchTitleModel.toplist(),
+    this.wallpaperInfo,
   });
 
   factory WallpaperState.fromJson(Map<String, dynamic> json) => WallpaperState(
@@ -46,6 +47,11 @@ class WallpaperState extends Equatable {
             : HomeSearchTitleModel.fromJson(
                 json['homeSearchTitleModel'] as Map<String, dynamic>,
               ),
+        wallpaperInfo: json['wallpaperInfo'] == null
+            ? null
+            : WallpaperInfo.fromJson(
+                json['wallpaperInfo'] as Map<String, dynamic>,
+              ),
       );
 
   final HomeStatus homeStatus;
@@ -54,6 +60,7 @@ class WallpaperState extends Equatable {
   final Map<String, int> colorsData;
   final WallpaperQuery wallQuery;
   final HomeSearchTitleModel homeSearchTitleModel;
+  final WallpaperInfo? wallpaperInfo;
 
   WallpaperState copyWith({
     HomeStatus? homeStatus,
@@ -62,6 +69,7 @@ class WallpaperState extends Equatable {
     Map<String, int>? colorsData,
     WallpaperQuery? wallQuery,
     HomeSearchTitleModel? homeSearchTitleModel,
+    WallpaperInfo? wallpaperInfo,
   }) {
     return WallpaperState(
       homeStatus: homeStatus ?? this.homeStatus,
@@ -70,6 +78,7 @@ class WallpaperState extends Equatable {
       colorsData: colorsData ?? this.colorsData,
       wallQuery: wallQuery ?? this.wallQuery,
       homeSearchTitleModel: homeSearchTitleModel ?? this.homeSearchTitleModel,
+      wallpaperInfo: wallpaperInfo ?? this.wallpaperInfo,
     );
   }
 
@@ -80,6 +89,7 @@ class WallpaperState extends Equatable {
         'colorsData': colorsData,
         'wallQuery': wallQuery.toJson(),
         'homeSearchTitleModel': homeSearchTitleModel.toJson(),
+        'wallpaperInfo': wallpaperInfo?.toJson(),
       };
 
   @override
@@ -90,5 +100,6 @@ class WallpaperState extends Equatable {
         colorsData,
         wallQuery,
         homeSearchTitleModel,
+        wallpaperInfo,
       ];
 }

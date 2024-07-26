@@ -1,31 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:haven_app/app/app.dart';
-import 'package:haven_app/wallhaven/wallhaven.dart';
 
-class NavigationBarPage extends StatelessWidget {
+class NavigationBarPage extends StatefulWidget {
   const NavigationBarPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => WallpaperCubit(_.read<WallhavenRepository>()),
-      child: const NavigationBarView(),
-    );
-  }
+  State<NavigationBarPage> createState() => _NavigationBarPageState();
 }
 
-class NavigationBarView extends StatefulWidget {
-  const NavigationBarView({super.key});
-
-  @override
-  State<NavigationBarView> createState() => _NavigationBarViewState();
-}
-
-class _NavigationBarViewState extends State<NavigationBarView> {
+class _NavigationBarPageState extends State<NavigationBarPage> {
   int currentPageIndex = 0;
 
   @override
@@ -65,26 +50,23 @@ class _NavigationBarViewState extends State<NavigationBarView> {
           ),
         ],
       ),
-      body: SafeArea(
-        child: Container(
-          constraints: const BoxConstraints.expand(),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).primaryColor.withAlpha(50),
-                Theme.of(context).primaryColorLight.withAlpha(50),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              tileMode: TileMode.mirror,
-            ),
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.pink.shade50,
+              Colors.cyan.shade100,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          child: <Widget>[
-            const SingleChildScrollView(child: HomePage()),
-            const SavePage(),
-            const UserPage(),
-          ][currentPageIndex],
         ),
+        child: <Widget>[
+          const SingleChildScrollView(child: HomePage()),
+          const SavePage(),
+          const UserPage(),
+        ][currentPageIndex],
       ),
     );
   }

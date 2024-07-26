@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -26,7 +24,6 @@ class _UserPageState extends State<UserPage> {
     await cubit.validateApikey(apikey: value);
 
     if (cubit.state.userStatus == UserStatus.success) {
-      log('apikey success = $value', name: 'UserPage');
       final purity =
           cubit.state.wallQuery.purity?.toList() ?? [true, false, null];
 
@@ -74,7 +71,7 @@ class _UserPageState extends State<UserPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+          padding: EdgeInsets.only(left: 16, top: 64),
           child: Text(
             'User',
             style: TextStyle(
@@ -84,7 +81,7 @@ class _UserPageState extends State<UserPage> {
           ),
         ),
         const Padding(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.only(left: 16, top: 8),
           child: Text(
             'Insert your API key here',
             style: TextStyle(
