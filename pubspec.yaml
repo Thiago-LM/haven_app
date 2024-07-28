@@ -31,8 +31,18 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   mocktail: ^1.0.3
+  msix: ^3.16.7
   very_good_analysis: ^5.1.0
 
 flutter:
   uses-material-design: true
   generate: true
+
+msix_config:
+  display_name: Haven App
+  publisher_display_name: odawara.dev
+  store: false
+  identity_name: br.com.odawara.havenapp
+  msix_version: 1.0.0.1
+  architecture: x64
+  capabilities: internetClient, picturesLibrary

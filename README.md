@@ -97,13 +97,21 @@ samples, guidance on mobile development, and a full API reference.
 
 ### Windows
 
-|                    Home Page                     |                    Save Page                     |
-| ------------------------------------------------ | ------------------------------------------------ |
-|![Home Page](screenshots/Windows_Screenshot_1.png)|![Save Page](screenshots/Windows_Screenshot_5.png)|
+|                     Home Page                    |                     Home Page - Search Filter Dialog                    |                     Wallpaper List Page                    |
+| ------------------------------------------------ | ----------------------------------------------------------------------- | ---------------------------------------------------------- |
+|![Home Page](screenshots/Windows_Screenshot_1.png)|![Home Page - Search Filter Dialog](screenshots/Windows_Screenshot_2.png)|![Wallpaper List Page](screenshots/Windows_Screenshot_3.png)|
 
-|                    Wall Page                     |                        Wall Page - Info                        |                        Wall Page - Share                        |
-| ------------------------------------------------ | -------------------------------------------------------------- | --------------------------------------------------------------- |
-|![Wall Page](screenshots/Windows_Screenshot_2.png)|![Wall Page - Info Dialog](screenshots/Windows_Screenshot_3.png)|![Wall Page - Share Dialog](screenshots/Windows_Screenshot_4.png)|
+|                     Save Page                    |                     User Page                    |
+| ------------------------------------------------ | ------------------------------------------------ |
+|![Save Page](screenshots/Windows_Screenshot_4.png)|![User Page](screenshots/Windows_Screenshot_5.png)|
+
+|                     Wall Page                    |                     Wall Page - Info Dialog                    |
+| ------------------------------------------------ | -------------------------------------------------------------- |
+|![Wall Page](screenshots/Windows_Screenshot_6.png)|![Wall Page - Info Dialog](screenshots/Windows_Screenshot_7.png)|
+
+|                     Wall Page - Save Dialog                    |                     Wall Page - Share Dialog                    |
+| -------------------------------------------------------------- | --------------------------------------------------------------- |
+|![Wall Page - Save Dialog](screenshots/Windows_Screenshot_8.png)|![Wall Page - Share Dialog](screenshots/Windows_Screenshot_9.png)|
 
 _\*Haven App works on Android, iOS, macOS, Linux and Windows._
 
