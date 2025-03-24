@@ -14,7 +14,7 @@ class InfoDialog extends StatelessWidget {
 
   final Wallpaper wallpaper;
 
-  final RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+  final reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
 
   String mathFunc(Match match) => '${match[1]},';
 
@@ -25,15 +25,28 @@ class InfoDialog extends StatelessWidget {
     return '${(bytes / pow(1024, i)).toStringAsFixed(decimals)} ${suffixes[i]}';
   }
 
+  Future<void> copyColor({
+    required BuildContext context,
+    required String color,
+  }) {
+    final messenger = ScaffoldMessenger.of(context);
+
+    return Clipboard.setData(ClipboardData(text: color)).whenComplete(() {
+      messenger
+        ..clearSnackBars()
+        ..showSnackBar(
+          SnackBar(content: Text('Color $color copied to clipboard')),
+        );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
       title: const Text('Info'),
       content: RichText(
         text: TextSpan(
-          style: const TextStyle(
-            color: Colors.black,
-          ),
+          style: const TextStyle(color: Colors.black),
           children: <TextSpan>[
             const TextSpan(
               text: 'id: ',
@@ -50,12 +63,14 @@ class InfoDialog extends StatelessWidget {
                 color: Colors.blue,
                 decoration: TextDecoration.underline,
               ),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () => launchUrl(
-                      Uri.parse(
-                        'https://wallhaven.cc/user/${wallpaper.uploader.username}',
-                      ),
-                    ),
+              recognizer:
+                  TapGestureRecognizer()
+                    ..onTap =
+                        () => launchUrl(
+                          Uri.parse(
+                            'https://wallhaven.cc/user/${wallpaper.uploader.username}',
+                          ),
+                        ),
             ),
             const TextSpan(
               text: '\ncategory: ',
@@ -89,9 +104,10 @@ class InfoDialog extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             TextSpan(
-              text: wallpaper.favorites
-                  .toString()
-                  .replaceAllMapped(reg, mathFunc),
+              text: wallpaper.favorites.toString().replaceAllMapped(
+                reg,
+                mathFunc,
+              ),
             ),
             const TextSpan(
               text: '\nlink: ',
@@ -104,8 +120,9 @@ class InfoDialog extends StatelessWidget {
                 decoration: TextDecoration.underline,
                 fontSize: 12,
               ),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () => launchUrl(Uri.parse(wallpaper.shortUrl)),
+              recognizer:
+                  TapGestureRecognizer()
+                    ..onTap = () => launchUrl(Uri.parse(wallpaper.shortUrl)),
             ),
             const TextSpan(
               text: '\ndate added: ',
@@ -121,13 +138,17 @@ class InfoDialog extends StatelessWidget {
               TextSpan(
                 text: '■',
                 style: TextStyle(color: HexColor.fromHex(color)),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => Clipboard.setData(ClipboardData(text: color)),
+                recognizer:
+                    TapGestureRecognizer()
+                      ..onTap =
+                          () async => copyColor(context: context, color: color),
               ),
               TextSpan(
                 text: color == wallpaper.colors.last ? ' $color' : ' $color, ',
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => Clipboard.setData(ClipboardData(text: color)),
+                recognizer:
+                    TapGestureRecognizer()
+                      ..onTap =
+                          () async => copyColor(context: context, color: color),
               ),
               TextSpan(text: color == wallpaper.colors.last ? ' ]' : ''),
             ],
@@ -143,10 +164,12 @@ class InfoDialog extends StatelessWidget {
                   color: Colors.blue,
                   decoration: TextDecoration.underline,
                 ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => launchUrl(
-                        Uri.parse('https://wallhaven.cc/tag/${tag.id}'),
-                      ),
+                recognizer:
+                    TapGestureRecognizer()
+                      ..onTap =
+                          () => launchUrl(
+                            Uri.parse('https://wallhaven.cc/tag/${tag.id}'),
+                          ),
               ),
               TextSpan(text: tag == wallpaper.tags.last ? '' : ', '),
               TextSpan(text: tag == wallpaper.tags.last ? ' ]' : ''),

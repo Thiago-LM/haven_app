@@ -16,10 +16,7 @@ class HomeColorsToneList extends StatelessWidget {
       children: [
         const Text(
           'The color tone',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),
         BlocBuilder<WallpaperCubit, WallpaperState>(
@@ -37,22 +34,37 @@ class HomeColorsToneList extends StatelessWidget {
                     itemCount: state.colorsData.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () => Clipboard.setData(
-                          ClipboardData(
-                            text: state.colorsData.keys.elementAt(index),
-                          ),
-                        ),
-                        child: Container(
-                          width: 50,
-                          margin: const EdgeInsets.only(right: 16),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(15),
-                            ),
-                            child: Container(
-                              color: HexColor.fromHex(
-                                state.colorsData.keys.elementAt(index),
+                      final tooltipkey = GlobalKey<TooltipState>();
+
+                      return Tooltip(
+                        key: tooltipkey,
+                        message:
+                            'Color ${state.colorsData.keys.elementAt(index)}\ncopied to clipboard',
+                        textAlign: TextAlign.center,
+                        margin: const EdgeInsets.only(top: 8),
+                        triggerMode: TooltipTriggerMode.tap,
+                        child: GestureDetector(
+                          onTap:
+                              () => Clipboard.setData(
+                                ClipboardData(
+                                  text: state.colorsData.keys.elementAt(index),
+                                ),
+                              ).whenComplete(
+                                () =>
+                                    tooltipkey.currentState
+                                        ?.ensureTooltipVisible(),
+                              ),
+                          child: Container(
+                            width: 50,
+                            margin: const EdgeInsets.only(right: 16),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(15),
+                              ),
+                              child: Container(
+                                color: HexColor.fromHex(
+                                  state.colorsData.keys.elementAt(index),
+                                ),
                               ),
                             ),
                           ),
@@ -62,9 +74,7 @@ class HomeColorsToneList extends StatelessWidget {
                   ),
                 );
               case HomeStatus.failure:
-                return const Center(
-                  child: Text('Failed to load colors'),
-                );
+                return const Center(child: Text('Failed to load colors'));
             }
           },
         ),
