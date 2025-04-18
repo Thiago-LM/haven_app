@@ -24,27 +24,30 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
           });
         },
         indicatorColor: Theme.of(context).indicatorColor,
+        backgroundColor: Colors.blueGrey[400],
         selectedIndex: currentPageIndex,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         destinations: <Widget>[
           NavigationDestination(
             icon: Icon(
-              CupertinoIcons.square_grid_2x2_fill,
-              color: currentPageIndex == 0 ? Colors.blueAccent : Colors.grey,
+              currentPageIndex == 0
+                  ? CupertinoIcons.square_grid_2x2_fill
+                  : CupertinoIcons.square_grid_2x2,
+              color: currentPageIndex == 0 ? Colors.blueAccent : Colors.black,
             ),
             label: 'Home',
           ),
           NavigationDestination(
             icon: Icon(
-              Icons.download,
-              color: currentPageIndex == 1 ? Colors.blueAccent : Colors.grey,
+              currentPageIndex == 1 ? Icons.download : Icons.download_outlined,
+              color: currentPageIndex == 1 ? Colors.blueAccent : Colors.black,
             ),
             label: 'Saved',
           ),
           NavigationDestination(
             icon: Icon(
-              Icons.person_outline,
-              color: currentPageIndex == 2 ? Colors.blueAccent : Colors.grey,
+              currentPageIndex == 2 ? Icons.person : Icons.person_outline,
+              color: currentPageIndex == 2 ? Colors.blueAccent : Colors.black,
             ),
             label: 'User',
           ),
@@ -54,19 +57,17 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
         constraints: const BoxConstraints.expand(),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Colors.pink.shade50,
-              Colors.cyan.shade100,
-            ],
+            colors: [Colors.pink.shade50, Colors.cyan.shade100],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
-        child: <Widget>[
-          const SingleChildScrollView(child: HomePage()),
-          const SavePage(),
-          const UserPage(),
-        ][currentPageIndex],
+        child:
+            <Widget>[
+              const SingleChildScrollView(child: HomePage()),
+              const SavePage(),
+              const UserPage(),
+            ][currentPageIndex],
       ),
     );
   }
