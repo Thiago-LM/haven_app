@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:haven_app/app/app.dart';
 import 'package:haven_app/shared/models/models.dart';
 
@@ -18,6 +16,8 @@ class _HomePageState extends State<HomePage> {
   final _textController = TextEditingController();
 
   HomeSearchTitleModel searchTitleModel = const HomeSearchTitleModel.toplist();
+
+  void unfocus() => FocusScope.of(context).unfocus();
 
   @override
   void initState() {
@@ -48,21 +48,22 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             onSearchPressed: () async {
+              unfocus();
               setState(
                 () => searchTitleModel = _textController.text.isEmpty
-                    ? cubit.state.wallQuery.sorting == WallpaperSorting.toplist
-                        ? const HomeSearchTitleModel.toplist()
-                        : cubit.state.wallQuery.sorting == WallpaperSorting.hot
-                            ? const HomeSearchTitleModel.hot()
-                            : cubit.state.wallQuery.sorting ==
-                                    WallpaperSorting.latest
-                                ? const HomeSearchTitleModel.latest()
-                                : cubit.state.wallQuery.sorting ==
-                                        WallpaperSorting.random
-                                    ? const HomeSearchTitleModel.random()
-                                    : HomeSearchTitleModel.search(
-                                        cubit.state.wallQuery.sorting!.name,
-                                      )
+                    ? switch (cubit.state.wallQuery.sorting) {
+                        WallpaperSorting.toplist =>
+                          const HomeSearchTitleModel.toplist(),
+                        WallpaperSorting.hot =>
+                          const HomeSearchTitleModel.hot(),
+                        WallpaperSorting.latest =>
+                          const HomeSearchTitleModel.latest(),
+                        WallpaperSorting.random =>
+                          const HomeSearchTitleModel.random(),
+                        _ => HomeSearchTitleModel.search(
+                          cubit.state.wallQuery.sorting!.name,
+                        ),
+                      }
                     : HomeSearchTitleModel.search(_textController.text),
               );
               cubit.updateStatus(HomeStatus.loading);
@@ -88,6 +89,7 @@ class _HomePageState extends State<HomePage> {
           ),
           HomeWallpaperList(
             onRefresh: () async {
+              unfocus();
               cubit.updateStatus(HomeStatus.loading);
               await cubit.fetchWallpaper();
             },
@@ -97,6 +99,7 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(height: 32),
           HomeCategoryListButtons(
             toplistOnPressed: () async {
+              unfocus();
               _textController.clear();
               setState(
                 () => searchTitleModel = const HomeSearchTitleModel.toplist(),
@@ -117,6 +120,7 @@ class _HomePageState extends State<HomePage> {
               );
             },
             latestOnPressed: () async {
+              unfocus();
               _textController.clear();
               setState(
                 () => searchTitleModel = const HomeSearchTitleModel.latest(),
@@ -137,6 +141,7 @@ class _HomePageState extends State<HomePage> {
               );
             },
             hotOnPressed: () async {
+              unfocus();
               _textController.clear();
               setState(
                 () => searchTitleModel = const HomeSearchTitleModel.hot(),
@@ -157,6 +162,7 @@ class _HomePageState extends State<HomePage> {
               );
             },
             randomOnPressed: () async {
+              unfocus();
               _textController.clear();
               setState(
                 () => searchTitleModel = const HomeSearchTitleModel.random(),

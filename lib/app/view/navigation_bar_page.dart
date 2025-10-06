@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:haven_app/app/app.dart';
 
 class NavigationBarPage extends StatefulWidget {
@@ -23,7 +22,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
             currentPageIndex = index;
           });
         },
-        indicatorColor: Theme.of(context).indicatorColor,
+        indicatorColor: Theme.of(context).tabBarTheme.indicatorColor,
         backgroundColor: Colors.blueGrey[400],
         selectedIndex: currentPageIndex,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
@@ -62,12 +61,11 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child:
-            <Widget>[
-              const SingleChildScrollView(child: HomePage()),
-              const SavePage(),
-              const UserPage(),
-            ][currentPageIndex],
+        child: <Widget>[
+          const SingleChildScrollView(child: HomePage()),
+          const SavePage(),
+          const UserPage(),
+        ][currentPageIndex],
       ),
     );
   }

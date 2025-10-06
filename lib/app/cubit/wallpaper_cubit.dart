@@ -4,15 +4,14 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:equatable/equatable.dart';
+import 'package:haven_app/app/models/models.dart';
+import 'package:haven_app/shared/shared.dart';
+import 'package:haven_app/wallhaven/wallhaven.dart';
 import 'package:http/http.dart' as http;
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
-
-import 'package:haven_app/app/models/models.dart';
-import 'package:haven_app/shared/shared.dart';
-import 'package:haven_app/wallhaven/wallhaven.dart';
 
 part 'wallpaper_state.dart';
 
@@ -26,8 +25,9 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
       emit(state.copyWith(homeStatus: HomeStatus.loading));
 
       try {
-        final wallpaperList =
-            await _wallhavenRepository.getWallpaper(wallQuery: wallQuery);
+        final wallpaperList = await _wallhavenRepository.getWallpaper(
+          wallQuery: wallQuery,
+        );
 
         emit(
           state.copyWith(
@@ -110,8 +110,9 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
             case 'windows':
               final docDir = await getApplicationDocumentsDirectory();
               final listDirString = docDir.path.split(r'\');
-              dir =
-                  Directory('C:/Users/${listDirString[2]}/Pictures/wallhaven/');
+              dir = Directory(
+                'C:/Users/${listDirString[2]}/Pictures/wallhaven/',
+              );
             case 'linux':
               final docDir = await getApplicationDocumentsDirectory();
               dir = Directory(
@@ -130,6 +131,12 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
 
           final file = File(dir.path + url.substring(url.lastIndexOf('/') + 1));
           controller.add('Downloading image...');
+
+          if (file.existsSync()) {
+            controller.add('Image already downloaded!');
+            await controller.close();
+            return;
+          }
 
           final fileBodyBytes = await http.readBytes(Uri.parse(url));
           file.writeAsBytesSync(fileBodyBytes);
@@ -164,22 +171,27 @@ class WallpaperCubit extends HydratedCubit<WallpaperState> {
     required bool isFile,
   }) async {
     try {
+      late final ShareParams shareParams;
+
       if (isFile && !Platform.isLinux) {
         final dir = await getTemporaryDirectory();
 
-        final file =
-            File('${dir.path}/${url.substring(url.lastIndexOf('/') + 1)}');
+        final file = File(
+          '${dir.path}/${url.substring(url.lastIndexOf('/') + 1)}',
+        );
         final fileBodyBytes = await http.readBytes(Uri.parse(url));
         file.writeAsBytesSync(fileBodyBytes);
 
-        await Share.shareXFiles([XFile(file.path)]);
+        shareParams = ShareParams(files: [XFile(file.path)]);
       } else {
         if (Platform.isAndroid || Platform.isIOS) {
-          await Share.shareUri(Uri.parse(url));
+          shareParams = ShareParams(uri: Uri.parse(url));
         } else {
-          await Share.share(url);
+          shareParams = ShareParams(text: url);
         }
       }
+
+      await SharePlus.instance.share(shareParams);
     } on Exception catch (e) {
       log('e = $e', name: 'WallpaperDetailsCubit');
     }

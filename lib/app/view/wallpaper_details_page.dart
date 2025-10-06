@@ -1,9 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:haven_app/app/app.dart';
 
 class WallpaperDetailsPage extends StatefulWidget {
@@ -108,14 +106,18 @@ class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
                   icon: CupertinoIcons.share,
                   action: () => showCupertinoModalPopup<void>(
                     context: context,
-                    builder: (BuildContext context) => ShareDialog(
-                      onPressedFile: () => cubit
-                          .shareWallpaper(url: widget.url, isFile: true)
-                          .then((value) => Navigator.of(context).pop()),
-                      onPressedLink: () => cubit
-                          .shareWallpaper(url: widget.url, isFile: false)
-                          .then((value) => Navigator.of(context).pop()),
-                    ),
+                    builder: (BuildContext ctx) {
+                      final navigator = Navigator.of(ctx);
+
+                      return ShareDialog(
+                        onPressedFile: () => cubit
+                            .shareWallpaper(url: widget.url, isFile: true)
+                            .then((value) => navigator.pop()),
+                        onPressedLink: () => cubit
+                            .shareWallpaper(url: widget.url, isFile: false)
+                            .then((value) => navigator.pop()),
+                      );
+                    },
                   ),
                 ),
               ],
