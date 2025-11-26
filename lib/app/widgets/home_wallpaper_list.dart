@@ -21,9 +21,7 @@ class HomeWallpaperList extends StatelessWidget {
           switch (state.homeStatus) {
             case HomeStatus.initial:
             case HomeStatus.loading:
-              return const Center(
-                child: CircularProgressIndicator.adaptive(),
-              );
+              return const Center(child: CircularProgressIndicator.adaptive());
             case HomeStatus.success:
               return SizedBox(
                 height: mediaSize.height * 0.3,
@@ -32,33 +30,39 @@ class HomeWallpaperList extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return Container(
-                      width: mediaSize.width * 0.4,
+                      width: mediaSize.width > 1200
+                          ? mediaSize.width * 0.15
+                          : mediaSize.width > 800
+                          ? mediaSize.width * 0.25
+                          : mediaSize.width * 0.4,
                       margin: const EdgeInsets.only(top: 8, right: 16),
-                      decoration: state.wallpaperList.data[index].purity
-                              .contains('sketchy')
+                      decoration:
+                          state.wallpaperList.data[index].purity.contains(
+                            'sketchy',
+                          )
                           ? BoxDecoration(
                               border: Border.all(
                                 width: 3,
                                 color: Colors.yellow,
                               ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(18)),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(18),
+                              ),
                             )
-                          : state.wallpaperList.data[index].purity
-                                  .contains('nsfw')
-                              ? BoxDecoration(
-                                  border: Border.all(
-                                    width: 3,
-                                    color: Colors.red,
-                                  ),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(18),
-                                  ),
-                                )
-                              : null,
+                          : state.wallpaperList.data[index].purity.contains(
+                              'nsfw',
+                            )
+                          ? BoxDecoration(
+                              border: Border.all(width: 3, color: Colors.red),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(18),
+                              ),
+                            )
+                          : null,
                       child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15),
+                        ),
                         child: GestureDetector(
                           child: CachedNetworkImage(
                             imageUrl:
@@ -66,10 +70,8 @@ class HomeWallpaperList extends StatelessWidget {
                             filterQuality: FilterQuality.high,
                             placeholder: (context, url) =>
                                 const CircularProgressIndicator.adaptive(),
-                            errorWidget: (context, url, error) => const Icon(
-                              Icons.error,
-                              color: Colors.red,
-                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error, color: Colors.red),
                             fit: BoxFit.cover,
                           ),
                           onTap: () => Navigator.of(context).push(
@@ -87,9 +89,7 @@ class HomeWallpaperList extends StatelessWidget {
                 ),
               );
             case HomeStatus.failure:
-              return const Center(
-                child: Text('Failed to load wallpaper'),
-              );
+              return const Center(child: Text('Failed to load wallpaper'));
           }
         },
       ),

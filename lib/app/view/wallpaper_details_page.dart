@@ -36,10 +36,8 @@ class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
             filterQuality: FilterQuality.high,
             placeholder: (context, url) =>
                 const Center(child: CircularProgressIndicator.adaptive()),
-            errorWidget: (context, url, error) => const Icon(
-              Icons.error,
-              color: Colors.red,
-            ),
+            errorWidget: (context, url, error) =>
+                const Icon(Icons.error, color: Colors.red),
             height: double.maxFinite,
             width: double.maxFinite,
             fit: fit,
@@ -66,8 +64,7 @@ class _WallpaperDetailsPageState extends State<WallpaperDetailsPage> {
                 backgroundColor: WidgetStateProperty.all(Colors.white24),
               ),
               onPressed: () => setState(
-                () =>
-                    fit = fit == BoxFit.cover ? BoxFit.fitWidth : BoxFit.cover,
+                () => fit = fit == BoxFit.cover ? BoxFit.contain : BoxFit.cover,
               ),
             ),
           ),

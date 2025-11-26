@@ -55,8 +55,7 @@ class _DownloadedWallpaperPageState extends State<DownloadedWallpaperPage> {
                 backgroundColor: WidgetStateProperty.all(Colors.white24),
               ),
               onPressed: () => setState(
-                () =>
-                    fit = fit == BoxFit.cover ? BoxFit.fitWidth : BoxFit.cover,
+                () => fit = fit == BoxFit.cover ? BoxFit.contain : BoxFit.cover,
               ),
             ),
           ),
