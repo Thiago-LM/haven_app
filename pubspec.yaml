@@ -1,35 +1,36 @@
 name: haven_app
 description: "A Flutter project experimentation with wallhaven API."
-publish_to: none
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.9.2
+  sdk: ^3.10.1
 
 dependencies:
-  bloc: ^9.0.1
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  bloc: ^9.1.0
   cached_network_image: ^3.4.1
   collection: ^1.19.1
   cupertino_icons: ^1.0.8
-  device_info_plus: ^12.1.0
+  device_info_plus: ^12.2.0
   equatable: ^2.0.7
-  flutter:
-    sdk: flutter
   flutter_bloc: ^9.1.1
-  flutter_localizations:
-    sdk: flutter
-  http: ^1.5.0
+  http: ^1.6.0
   hydrated_bloc: ^10.1.1
   intl: ^0.20.2
   path_provider: ^2.1.5
   permission_handler: ^12.0.1
-  share_plus: ^12.0.0
+  share_plus: ^12.0.1
   url_launcher: ^6.3.2
 
 dev_dependencies:
-  bloc_test: ^10.0.0
   flutter_test:
     sdk: flutter
+  bloc_test: ^10.0.0
+  flutter_lints: ^6.0.0
   mocktail: ^1.0.4
   msix: ^3.16.12
   very_good_analysis: ^10.0.0
